@@ -11,15 +11,7 @@
                 class="bg-white/20 text-white mt-2 rounded p-2 border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#a69fc4]"
                 placeholder="name@company.com" />
 
-            <div *ngIf="loginForm.get('username')?.dirty && loginForm.get('username')?.invalid" [@slideFade]
-                class="mt-2  text-red-300 text-sm px-3 py-2 w-fit">
-                <p *ngIf="loginForm.get('username')?.errors?.['required']"
-                    class="text-white bg-red-600 px-2 py-1 rounded drop-shadow-sm">Email is
-                    required</p>
-                <p *ngIf="loginForm.get('username')?.errors?.['email']"
-                    class="text-white bg-red-600 px-2 py-1 rounded drop-shadow-sm">Enter a valid
-                    email</p>
-            </div>
+            <app-validation-msg [form]="loginForm" controlName="username" label="Email"></app-validation-msg>
         </div>
 
         <div class="flex flex-col mb-8">
@@ -27,14 +19,7 @@
             <input type="password" id="password" name="password" formControlName="password" required
                 class="bg-white/20 text-white mt-2 rounded p-2 border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#a69fc4]"
                 placeholder="********" />
-            <div *ngIf="loginForm.get('password')?.dirty && loginForm.get('password')?.invalid"
-                class="mt-2 text-red-300 text-sm px-3 py-2 w-fit" [@slideFade]>
-                <p *ngIf="loginForm.get('password')?.errors?.['required']"
-                    class="text-white bg-red-600 px-2 py-1 rounded drop-shadow-sm">Password is
-                    required</p>
-                <p *ngIf="loginForm.get('password')?.errors?.['minlength']"
-                    class="text-white bg-red-600 px-2 py-1 rounded drop-shadow-sm">Min 6 characters</p>
-            </div>
+            <app-validation-msg [form]="loginForm" controlName="password" label="Password"></app-validation-msg>
 
         </div>
 

@@ -1,0 +1,17 @@
+<div *ngIf="(form.get(controlName)?.dirty || form.get(controlName)?.touched || submitted) && form.get(controlName)?.invalid"
+    [@slideFade] class="mt-2 text-red-300 text-sm px-3 py-2 w-fit">
+
+    <p *ngIf="form.get(controlName)?.errors?.['required']"
+        class="text-white bg-red-600 px-2 py-1 rounded drop-shadow-sm">
+        {{ label }} is required
+    </p>
+
+    <p *ngIf="form.get(controlName)?.errors?.['email']" class="text-white bg-red-600 px-2 py-1 rounded drop-shadow-sm">
+        Enter a valid {{ label.toLowerCase() }}
+    </p>
+
+    <p *ngIf="form.get(controlName)?.errors?.['minlength']"
+        class="text-white bg-red-600 px-2 py-1 rounded drop-shadow-sm">
+        Min {{ form.get(controlName)?.errors?.['minlength'].requiredLength }} characters
+    </p>
+</div>

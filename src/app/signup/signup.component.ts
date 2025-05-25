@@ -1,39 +1,30 @@
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { trigger, transition, style, animate } from '@angular/animations';
-import { CommonModule } from '@angular/common';
-
+import { ValidationMsgComponent } from '../shared/validation-msg/validation-msg.component';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
-  imports: [ReactiveFormsModule, FormsModule],
-  animations: [
-    trigger('slideFade', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(-5px)' }),
-        animate('200ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
-      ]),
-      transition(':leave', [
-        animate('150ms ease-in', style({ opacity: 0, transform: 'translateY(-5px)' })),
-      ]),
-    ])
-  ]
+  imports: [ReactiveFormsModule, FormsModule, ValidationMsgComponent],
+
 })
 export class SignupComponent {
   previewUrl: string | ArrayBuffer | null = null;
   selectedFile: File | null = null;
   signupForm: FormGroup;
+  submitted = false;
 
   constructor(private fb: FormBuilder) {
     this.signupForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       username: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
-      terms: [false, Validators.requiredTrue]
+      terms: [false, Validators.requiredTrue],
+      profileImage: [null, Validators.required]
     }, {
       validators: this.passwordsMatch
     });
@@ -46,6 +37,7 @@ export class SignupComponent {
     return pass === confirm ? null : { notMatching: true };
   }
   onSubmit() {
+    this.submitted = true;
     if (this.signupForm.valid) {
       console.log(this.signupForm.value);
       // Handle form submission logic here
@@ -54,18 +46,13 @@ export class SignupComponent {
     }
   }
 
-  onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-
+  onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement)?.files?.[0];
     if (file) {
-      this.selectedFile = file;
-
+      this.signupForm.patchValue({ profileImage: file });
+      this.signupForm.get('profileImage')?.updateValueAndValidity();
       const reader = new FileReader();
-
-      reader.onload = () => {
-        this.previewUrl = reader.result;
-      };
-
+      reader.onload = () => (this.previewUrl = reader.result as string);
       reader.readAsDataURL(file);
     }
   }
