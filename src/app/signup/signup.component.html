@@ -5,39 +5,57 @@
         Elevate your online store! Join our e-commerce network for premium tools, curated templates, and expert support.
     </p>
 
-    <form>
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
         <div class="flex mb-8 gap-4">
             <div class="flex flex-col w-1/2">
                 <label for="firstName" class="text-sm font-bold text-white">First Name</label>
-                <input type="text" id="firstName" name="firstName" ngModel required
-                    class="bg-white/20 text-white mt-2 rounded p-2 border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#a69fc4]" placeholder="John">
+                <input type="text" id="firstName" formControlName="firstName" required
+                    class="bg-white/20 text-white mt-2 rounded p-2 border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#a69fc4]"
+                    placeholder="John">
             </div>
 
             <div class="flex flex-col w-1/2">
                 <label for="lastName" class="text-sm font-bold text-white">Last Name</label>
-                <input type="text" id="lastName" name="lastName" ngModel required
-                    class="bg-white/20 text-white mt-2 rounded p-2 border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#a69fc4]" placeholder="Doe">
+                <input type="text" id="lastName" formControlName="lastName" required
+                    class="bg-white/20 text-white mt-2 rounded p-2 border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#a69fc4]"
+                    placeholder="Doe">
             </div>
         </div>
 
         <div class="flex flex-col mb-8">
             <label for="username" class="text-sm font-bold text-white">Your email</label>
-            <input type="text" id="username" name="username" ngModel required
-                class="bg-white/20 text-white mt-2 rounded p-2 border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#a69fc4]" placeholder="name@company.com">
+            <input type="text" id="username" formControlName="email" required
+                class="bg-white/20 text-white mt-2 rounded p-2 border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#a69fc4]"
+                placeholder="name@company.com">
         </div>
 
         <div class="flex flex-col mb-8">
             <label for="password" class="text-sm font-bold text-white">Password</label>
-            <input type="password" id="password" name="password" ngModel required
-                class="bg-white/20 text-white mt-2 rounded p-2 border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#a69fc4]" placeholder="********">
+            <input type="password" id="password" formControlName="password" required
+                class="bg-white/20 text-white mt-2 rounded p-2 border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#a69fc4]"
+                placeholder="********">
         </div>
 
         <div class="flex flex-col mb-8">
             <label for="confirmPassword" class="text-sm font-bold text-white">Confirm Password</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" ngModel required class="bg-white/20 text-white mt-2 rounded p-2 border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#a69fc4]">
+            <input type="password" id="confirmPassword" formControlName="confirmPassword" required
+                class="bg-white/20 text-white mt-2 rounded p-2 border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#a69fc4]">
         </div>
 
-        <div class=" mb-8 flex items-center">
+        <div class="flex flex-col space-y-4 mt-4">
+            <label for="profileImage" class="text-sm font-bold text-white">Upload Profile Image</label>
+
+            <input type="file" id="profileImage" (change)="onFileSelected($event)" accept="image/*"
+                class="text-white bg-white/10 border border-white/30 rounded p-2 file:bg-[#a69fc4] file:text-white file:rounded file:px-4 file:py-1 file:border-0 file:mr-4 cursor-pointer" />
+
+            <div *ngIf="previewUrl" class="flex flex-col items-center mt-4">
+                <p class="text-white text-sm mb-2">Preview:</p>
+                <img [src]="previewUrl" alt="Image preview"
+                    class="w-36 h-36 object-cover rounded-full border-2 border-white/30 shadow-lg" />
+            </div>
+        </div>
+
+        <div class=" mb-8 flex items-center mt-6">
             <input type="checkbox" id="terms" name="terms" ngModel required class="mr-2 accent-purple-500">
             <label for="terms" class="text-sm text-gray-300">
                 I accept the <a href="#" class="text-purple-400 hover:underline">Terms of Service</a>
