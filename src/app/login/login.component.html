@@ -1,38 +1,40 @@
-<div class="login-container bg-white p-6 rounded shadow-md max-w-2xl mx-auto mt-10 mb-10">
-    <h2 class="text-3xl font-bold mb-3">Sign in to your account</h2>
-    <p class=" text-[15px] text-gray-500 mb-8">
+<div
+    class="login-container p-6 rounded-xl shadow-xl shadow-black/30 max-w-2xl mx-auto mt-10 mb-10 bg-white/10 backdrop-blur-md border border-white/20">
+    <h2 class="text-3xl font-bold mb-3 text-white">Sign in to your account</h2>
+    <p class="text-[15px] text-gray-300 mb-8">
         Elevate your online store! Join our e-commerce network for premium tools, curated templates, and expert support.
     </p>
     <form>
         <div class="flex flex-col mb-8">
-            <label for="username" class="text-sm font-bold">Your email</label>
+            <label for="username" class="text-sm font-bold text-white">Your email</label>
             <input type="text" id="username" name="username" ngModel required
-                class="bg-[#fffefe] mt-2 rounded p-2  border-gray-200 border-2" placeholder="name@company.com">
+                class="bg-white/20 text-white mt-2 rounded p-2 border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#a69fc4]"
+                placeholder="name@company.com" />
         </div>
 
         <div class="flex flex-col mb-8">
-            <label for="password" class="text-sm font-bold">Password</label>
+            <label for="password" class="text-sm font-bold text-white">Password</label>
             <input type="password" id="password" name="password" ngModel required
-                class="bg-[#fffefe] mt-2 rounded p-2 border-gray-200 border-2" placeholder="********">
+                class="bg-white/20 text-white mt-2 rounded p-2 border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#a69fc4]"
+                placeholder="********" />
         </div>
+
         <div class="flex justify-between mb-8">
             <div>
-
-                <input type="checkbox" id="remember" name="remember" ngModel class="mr-2">
-                <label for="remember" class="text-sm font-bold">Remember me</label>
+                <input type="checkbox" id="remember" name="remember" ngModel class="mr-2" />
+                <label for="remember" class="text-sm font-bold text-white">Remember me</label>
             </div>
-
-            <a href="#" class="text-sm text-blue-500 hover:underline">Forgot password?</a>
+            <a href="#" class="text-sm text-purple-400 hover:underline">Forgot password?</a>
         </div>
 
         <button type="submit"
-            class="bg-gradient-to-r from-[#8176af] to-[#a69fc4] text-white font-bold py-2 px-4 rounded hover:bg-[#C0B7E8] transition duration-300">
+            class="bg-gradient-to-r from-[#8176af] to-[#a69fc4] text-white font-bold py-2 px-4 rounded hover:opacity-90 transition duration-300">
             Sign in to account
         </button>
 
-        <div class="flex  mt-8">
-            <span class="text-sm text-gray-500">Don't have an account?</span>
-            <a href="#" class="text-sm text-blue-500 hover:underline ml-2">Create an account</a>
+        <div class="flex mt-8">
+            <span class="text-sm text-gray-300">Don't have an account?</span>
+            <a href="#" class="text-sm text-purple-400 hover:underline ml-2">Create an account</a>
         </div>
     </form>
 </div>
