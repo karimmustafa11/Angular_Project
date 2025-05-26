@@ -4,14 +4,14 @@ import { EmptyLayoutComponentComponent } from './empty-layout-component/empty-la
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { AboutComponent } from './about/about.component';
-import { CartComponent } from './cart/cart.component';
+import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
     {
         path: '',
         component: FullLayoutComponent,
         children: [
-            { path: '', component: CartComponent }, // Default route
+            { path: '', component: HomeComponent }, // Default route
             { path: 'about', component: AboutComponent },
         ]
     },
