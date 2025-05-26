@@ -3,10 +3,11 @@ import { TreatYourselfTodayComponent } from '../treat-yourself-today/treat-yours
 import { AdsSliderComponent } from "../ads-slider/ads-slider.component";
 import { SportsSectionComponent } from "../sports-section/sports-section.component";
 import { OtherSectionComponent } from "../other-section/other-section.component";
+import { MenFashionComponent } from "../men-fashion/men-fashion.component";
 
 @Component({
   selector: 'app-home',
-  imports: [TreatYourselfTodayComponent, AdsSliderComponent, SportsSectionComponent, OtherSectionComponent],
+  imports: [TreatYourselfTodayComponent, AdsSliderComponent, SportsSectionComponent, OtherSectionComponent, MenFashionComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
