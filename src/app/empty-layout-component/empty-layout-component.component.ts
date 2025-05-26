@@ -5,6 +5,7 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-empty-layout-component',
   imports: [RouterOutlet],
   templateUrl: './empty-layout-component.component.html',
+  styleUrls: ['./empty-layout-component.component.css']
 })
 export class EmptyLayoutComponentComponent {
 

@@ -7,6 +7,7 @@ import { FooterComponent } from "../footer/footer.component";
   selector: 'app-full-layout-component',
   imports: [RouterOutlet, HeaderComponent, FooterComponent],
   templateUrl: './full-layout-component.component.html',
+  styleUrls: ['./full-layout-component.component.css']
 
 })
 export class FullLayoutComponent {
