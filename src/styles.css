@@ -8,6 +8,12 @@ body {
     overflow: auto;
 }
 
+body {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+
 .bg-login {
     position: fixed;
     top: 0;
