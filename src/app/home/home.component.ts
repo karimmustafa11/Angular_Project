@@ -7,10 +7,11 @@ import { MenFashionComponent } from "../men-fashion/men-fashion.component";
 import { WomenFashionComponent } from "../women-fashion/women-fashion.component";
 import { KidsFashionComponent } from '../kids-fashion/kids-fashion.component';
 import { StartShoppingComponent } from "../start-shopping/start-shopping.component";
+import { RecommendedComponent } from '../recommended/recommended.component';
 
 @Component({
   selector: 'app-home',
-  imports: [TreatYourselfTodayComponent, AdsSliderComponent, SportsSectionComponent, OtherSectionComponent, MenFashionComponent, WomenFashionComponent, KidsFashionComponent, StartShoppingComponent],
+  imports: [TreatYourselfTodayComponent, AdsSliderComponent, SportsSectionComponent, OtherSectionComponent, MenFashionComponent, WomenFashionComponent, KidsFashionComponent, StartShoppingComponent , RecommendedComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
