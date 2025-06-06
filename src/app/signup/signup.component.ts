@@ -47,7 +47,7 @@ export class SignupComponent {
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', Validators.required],
         terms: [false, Validators.requiredTrue],
-        profileImage: [null],  // Remove required validator temporarily
+        profileImage: [null],
       },
       { validators: this.passwordsMatch }
     );
@@ -62,33 +62,21 @@ export class SignupComponent {
   onFileSelected(event: Event) {
     const file = (event.target as HTMLInputElement)?.files?.[0];
     if (file) {
-      this.signupForm.patchValue({ profileImage: file });
-      this.signupForm.get('profileImage')?.updateValueAndValidity();
-
       const reader = new FileReader();
-      reader.onload = () => (this.previewUrl = reader.result);
+      reader.onload = () => {
+        this.previewUrl = reader.result;
+        this.signupForm.patchValue({
+          profileImage: reader.result
+        });
+        this.signupForm.get('profileImage')?.updateValueAndValidity();
+      };
       reader.readAsDataURL(file);
     }
   }
 
+
   onSubmit() {
     this.submitted = true;
-
-    // Debug information
-    console.log('Form Values:', this.signupForm.value);
-    console.log('Form Valid:', this.signupForm.valid);
-    console.log('Form Errors:', this.signupForm.errors);
-
-    // Check each control's validity
-    Object.keys(this.signupForm.controls).forEach(key => {
-      const control = this.signupForm.get(key);
-      console.log(`${key} validity:`, {
-        valid: control?.valid,
-        errors: control?.errors,
-        value: control?.value
-      });
-    });
-
     if (this.signupForm.valid) {
       const form = this.signupForm.value;
 
@@ -97,7 +85,7 @@ export class SignupComponent {
         password: form.password,
         firstName: form.firstName,
         lastName: form.lastName,
-
+        profileImage: form.profileImage,
       };
 
       this.http.post('http://localhost:3000/register', userPayload).subscribe({
@@ -105,7 +93,7 @@ export class SignupComponent {
           console.log('Registration successful:', res);
           if (res && res.accessToken) {
             this.showSuccessMessage = true;
-
+            localStorage.setItem('accessToken', res.accessToken);
             this.startCountdownAndRedirect();
           } else {
             console.error('Invalid response format');
@@ -121,25 +109,9 @@ export class SignupComponent {
           }
         },
       });
-    }
-    else {
-      console.log('Form validation errors:', this.signupForm.errors);
-
-      // Show specific validation errors
-      let errorMessage = 'Please fix the following errors:\n';
-      Object.keys(this.signupForm.controls).forEach(key => {
-        const control = this.signupForm.get(key);
-        if (control?.errors) {
-          errorMessage += `\n${key}: `;
-          if (control.errors['required']) errorMessage += 'This field is required.';
-          if (control.errors['email']) errorMessage += 'Invalid email format.';
-          if (control.errors['minlength']) errorMessage += 'Minimum length not met.';
-          if (key === 'confirmPassword' && this.signupForm.errors?.['notMatching'])
-            errorMessage += 'Passwords do not match.';
-        }
-      });
-
+    } else {
       this.signupForm.markAllAsTouched();
     }
   }
+
 }

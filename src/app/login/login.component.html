@@ -1,16 +1,60 @@
+<div *ngIf="showSuccessMessage"
+    class="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-6">
+
+    <div class="relative bg-white rounded-3xl shadow-2xl border-4 border-green-500 max-w-sm w-full
+     flex flex-col items-center gap-6 p-10 animate-slide-up-fade">
+
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-green-600 drop-shadow-md animate-checkmark"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+
+        <h3 class="text-3xl font-extrabold text-green-700">Logged In Successfully!</h3>
+        <p class="text-gray-600 text-center text-lg max-w-xs">Redirecting to home...</p>
+
+        <div class="w-full h-2 bg-green-200 rounded-full overflow-hidden">
+            <div class="h-full bg-green-600 rounded-full transition-all duration-100"
+                [ngStyle]="{ width: countdownWidth + '%' }"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ❌ رسالة الخطأ -->
+<div *ngIf="showErrorMessage"
+    class="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-6">
+
+    <div class="relative bg-white rounded-3xl shadow-2xl border-4 border-red-500 max-w-sm w-full
+     flex flex-col items-center gap-6 p-10 animate-slide-up-fade">
+
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-red-600 drop-shadow-md animate-bounce" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M12 17a5 5 0 100-10 5 5 0 000 10z" />
+        </svg>
+
+        <h3 class="text-3xl font-extrabold text-red-700">Login Failed!</h3>
+        <p class="text-gray-600 text-center text-lg max-w-xs">Invalid email or password. Please try again.</p>
+
+        <button (click)="closeErrorMessage()"
+            class="bg-red-600 text-white font-bold py-2 px-6 rounded-full hover:bg-red-700 transition">
+            Try Again
+        </button>
+    </div>
+</div>
+
+
 <div
-    class="login-container p-6 rounded-xl shadow-xl shadow-black/30 max-w-2xl mx-auto mt-10 mb-10 bg-white/10 backdrop-blur-md border border-white/20">
+    class="login-container p-6 rounded-xl shadow-xl shadow-black/30 max-w-2xl mx-auto mt-10 mb-10 bg-white/10 backdrop-blur-lg border border-white/20">
     <h2 class="text-3xl font-bold mb-3 text-white">Sign in to your account</h2>
     <p class="text-[15px] text-gray-300 mb-8">
         Elevate your online store! Join our e-commerce network for premium tools, curated templates, and expert support.
     </p>
+
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="flex flex-col mb-8">
             <label for="username" class="text-sm font-bold text-white">Your email</label>
             <input type="text" id="username" formControlName="username" required
                 class="bg-white/20 text-white mt-2 rounded p-2 border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#a69fc4]"
                 placeholder="name@company.com" />
-
             <app-validation-msg [form]="loginForm" controlName="username" label="Email"></app-validation-msg>
         </div>
 
@@ -20,12 +64,11 @@
                 class="bg-white/20 text-white mt-2 rounded p-2 border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#a69fc4]"
                 placeholder="********" />
             <app-validation-msg [form]="loginForm" controlName="password" label="Password"></app-validation-msg>
-
         </div>
 
         <div class="flex justify-between mb-8">
             <div>
-                <input type="checkbox" id="remember" name="remember" ngModel class="mr-2" />
+                <input type="checkbox" id="remember" name="remember" class="mr-2" />
                 <label for="remember" class="text-sm font-bold text-white">Remember me</label>
             </div>
             <a href="#" class="text-sm text-purple-400 hover:underline">Forgot password?</a>

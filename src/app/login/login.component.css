@@ -13,3 +13,41 @@
 .slide-down {
     animation: slideDown 0.3s ease-out;
 }
+
+@keyframes slide-up-fade {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-slide-up-fade {
+    animation: slide-up-fade 0.5s ease forwards;
+}
+
+@keyframes checkmark {
+    0% {
+        stroke-dashoffset: 48;
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+    }
+}
+
+.animate-checkmark {
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: checkmark 0.8s ease forwards;
+}
