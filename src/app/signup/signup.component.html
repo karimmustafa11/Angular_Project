@@ -66,7 +66,8 @@
 
         <div class=" mb-8 flex items-center mt-6">
             <div>
-                <input type="checkbox" id="terms" name="terms" ngModel required class="mr-2 accent-purple-500">
+                <input type="checkbox" id="terms" name="terms" required class="mr-2 accent-purple-500"
+                    formControlName="terms">
                 <label for="terms" class="text-sm text-gray-300">
                     I accept the <a href="#" class="text-purple-400 hover:underline">Terms of Service</a>
                 </label>
@@ -86,4 +87,28 @@
             <a href="#" class="text-sm text-purple-400 hover:underline ml-2">Login here</a>
         </div>
     </form>
+    <div *ngIf="showSuccessMessage"
+        class="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-6">
+
+        <div class="relative bg-white rounded-3xl shadow-2xl border-4 border-green-500 max-w-sm w-full
+          flex flex-col items-center gap-6 p-10
+          animate-slide-up-fade">
+
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-green-600 drop-shadow-md animate-checkmark"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+
+            <h3 class="text-3xl font-extrabold text-green-700">Account Created!</h3>
+            <p class="text-gray-600 text-center text-lg max-w-xs">Redirecting to login shortly...</p>
+
+            <div class="w-full h-2 bg-green-200 rounded-full overflow-hidden">
+                <div class="h-full bg-green-600 rounded-full transition-all duration-100"
+                    [ngStyle]="{ width: countdownWidth + '%' }"></div>
+            </div>
+        </div>
+    </div>
+
+
+
 </div>
