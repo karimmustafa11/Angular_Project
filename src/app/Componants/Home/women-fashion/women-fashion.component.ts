@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { CategorySectionComponent } from '../category-one-section/category-one-section.component';
+import { DataService } from '../../../services/data-service.service';
+import { OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-women-fashion',
@@ -7,37 +9,12 @@ import { CategorySectionComponent } from '../category-one-section/category-one-s
   templateUrl: './women-fashion.component.html',
   styleUrl: './women-fashion.component.css',
 })
-export class WomenFashionComponent {
-  products = [
-    {
-      image: 'images/women/top.png',
-      name: 'Tops & T-Shirts',
-      discount: '30% OFF',
-    },
-    {
-      image: 'images/women/shirt.png',
-      name: 'Shirts & Blouses',
-      discount: '20% OFF',
-    },
-    {
-      image: 'images/women/sport.png',
-      name: 'Sportswear',
-      discount: '25% OFF',
-    },
-    {
-      image: 'images/women/bag.png',
-      name: 'Leather Bag',
-      discount: '35% OFF',
-    },
-    {
-      image: 'images/women/foot.png',
-      name: 'Footwear',
-      discount: '20% OFF',
-    },
-    {
-      image: 'images/women/cap.png',
-      name: 'Cap',
-      discount: '15% OFF',
-    }
-  ];
+export class WomenFashionComponent implements OnInit {
+  constructor(private dataService: DataService) {}
+  products: any[] = [];
+  ngOnInit(): void {
+    this.dataService.getWomenFashionProducts().subscribe((data) => {
+      this.products = data;
+    });
+  } 
 }

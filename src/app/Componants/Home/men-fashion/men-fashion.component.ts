@@ -1,42 +1,19 @@
-import { Component } from '@angular/core';
+import { Component , OnInit} from '@angular/core';
 import { CategorySectionComponent } from '../category-one-section/category-one-section.component';
+import { DataService } from '../../../services/data-service.service';
 
 @Component({
   selector: 'app-men-fashion',
   templateUrl: './men-fashion.component.html',
   imports: [CategorySectionComponent],
 })
-export class MenFashionComponent {
-  products = [
-    {
-      image: 'images/men/top.png',
-      name: 'Tops & T-Shirts',
-      discount: '30% OFF',
-    },
-    {
-      image: 'images/men/summer.png',
-      name: 'Summer Collection',
-      discount: '20% OFF',
-    },
-    {
-      image: 'images/men/sport.png',
-      name: 'Sportswear',
-      discount: '25% OFF',
-    },
-    {
-      image: 'images/men/bag.png',
-      name: 'Bags',
-      discount: '35% OFF',
-    },
-    {
-      image: 'images/men/foot.png',
-      name: 'Footwear',
-      discount: '20% OFF',
-    },
-    {
-      image: 'images/men/cap.png',
-      name: 'Cap',
-      discount: '15% OFF',
-    }
-  ];
+export class MenFashionComponent implements OnInit {
+  products: any[] = [];
+  constructor(private dataService: DataService) {}
+  ngOnInit() {
+    this.dataService.getMenFashionProducts().subscribe((data) => {
+      this.products = data;
+    });
+  }
 }
+    
