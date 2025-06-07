@@ -28,4 +28,8 @@ export class HeaderComponent implements OnInit {
   login() {
     this.router.navigate(['/login']);
   }
+
+  About() {
+    this.router.navigate(['/about']);
+  }
 }
