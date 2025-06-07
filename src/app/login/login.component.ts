@@ -61,6 +61,7 @@ export class LoginComponent {
         next: (res: any) => {
           console.log('Login response:', res);
           if (res && res.accessToken) {
+            localStorage.setItem('accessToken', res.accessToken);
             this.showSuccessMessage = true;
             this.countdownWidth = 100;
 

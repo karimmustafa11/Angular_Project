@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './other-section.component.css'
 })
 export class OtherSectionComponent {
- products = [
+  products = [
     {
       name: 'Books',
       discount: 'Up to 60% Off',
@@ -27,8 +27,8 @@ export class OtherSectionComponent {
     {
       name: 'Tools & Home Improvement',
       discount: 'Up to 55% Off',
-      image: '/images/other/tool-boxes.png',
+      image: '/images/other/tool_boxes.png',
     }
-  
+
   ];
 }

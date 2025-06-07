@@ -1,25 +1,31 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  imports: [CommonModule]
 })
-export class HeaderComponent {
-  title = 'My Angular App';
-  subtitle = 'Welcome to my app!';
+export class HeaderComponent implements OnInit {
+  isLoggedIn: boolean = false;
 
-  constructor() {
-    // Initialization logic can go here
+  constructor(private router: Router) { }
+
+  ngOnInit() {
+    this.checkLoginStatus();
   }
 
-  // Add any methods or properties needed for the header component                  
-  toggleMenu() {
-    // Logic to toggle the menu
+  checkLoginStatus() {
+    this.isLoggedIn = !!localStorage.getItem('accessToken');
+  }
+
+  logout() {
+    localStorage.removeItem('accessToken');
+    this.isLoggedIn = false;
+    this.router.navigate(['/login']);
+  }
+  login() {
+    this.router.navigate(['/login']);
   }
 }
