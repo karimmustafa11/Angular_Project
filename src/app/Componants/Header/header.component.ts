@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  imports: [CommonModule]
+  imports: [CommonModule, RouterLink, RouterLinkActive]
 })
 export class HeaderComponent implements OnInit {
   isLoggedIn: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(public router: Router) { }
 
   ngOnInit() {
     this.checkLoginStatus();

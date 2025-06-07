@@ -5,13 +5,15 @@ import { Router } from '@angular/router';
 import { ValidationMsgComponent } from '../shared/validation-msg/validation-msg.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
   standalone: true,
-  imports: [ValidationMsgComponent, FormsModule, ReactiveFormsModule, HttpClientModule, CommonModule],
+  imports: [ValidationMsgComponent, FormsModule, ReactiveFormsModule, HttpClientModule, CommonModule, RouterLink, RouterLinkActive],
 })
 export class SignupComponent {
   showSuccessMessage = false;

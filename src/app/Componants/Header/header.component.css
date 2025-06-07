@@ -17,3 +17,7 @@
 .nav-btn:hover {
     background-color: #3730a3;
 }
+
+.router-link-active {
+    @apply text-blue-700 font-semibold;
+}
