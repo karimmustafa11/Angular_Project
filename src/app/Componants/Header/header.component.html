@@ -1,6 +1,6 @@
 <header class="border-b border-gray-300 bg-header min-h-[60px] px-10 py-3 tracking-wide relative z-50">
     <div class="flex flex-wrap items-center max-lg:gap-y-6 max-sm:gap-x-4">
-        <a href="javascript:void(0)">
+        <a [routerLink]="['']">
             <img src="images/logo.png" alt="" width="100" height="100">
         </a>
 
@@ -131,12 +131,55 @@
 
     <div
         class="bg-gray-100 border border-transparent focus-within:border-slate-900 focus-within:bg-transparent flex items-center px-4 rounded-full h-10 lg:w-2/4 mt-3 mx-auto max-lg:mt-6 transition-all">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192.904 192.904" class="w-4 h-4 fill-white mr-3">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192.904 192.904" class="w-4 h-4 fill-black mr-3">
             <path
                 d="m190.707 180.101-47.078-47.077c11.702-14.072 18.752-32.142 18.752-51.831C162.381 36.423 125.959 0 81.191 0 36.422 0 0 36.423 0 81.193c0 44.767 36.422 81.187 81.191 81.187 19.688 0 37.759-7.049 51.831-18.751l47.079 47.078a7.474 7.474 0 0 0 5.303 2.197 7.498 7.498 0 0 0 5.303-12.803zM15 81.193C15 44.694 44.693 15 81.191 15c36.497 0 66.189 29.694 66.189 66.193 0 36.496-29.692 66.187-66.189 66.187C44.693 147.38 15 117.689 15 81.193z">
             </path>
         </svg>
-        <input type='email' placeholder='Search...'
-            class="w-full outline-none bg-transparent text-slate-900 text-[15px]" />
+        <input type="text"
+           placeholder="Search..."
+           class="w-full bg-transparent text-white placeholder-gray-400 focus:outline-none"
+           [(ngModel)]="searchTerm"
+           (input)="onSearchChange()"
+           (focus)="onFocus()"
+           (blur)="onBlur()" />
+  </div>
+
+  <!-- Results Container with animation -->
+  <div
+    *ngIf="isFocused"
+    class="absolute w-full mt-2 bg-gray-900 text-white rounded-lg shadow-lg p-4 transition-all duration-300 ease-out transform scale-95 opacity-0 translate-y-2"
+    [ngClass]="{ 'opacity-100 scale-100 translate-y-0': isFocused }">
+    
+    <!-- Show initial hint -->
+    <div *ngIf="!searchTerm.trim()" class="text-gray-400">
+      Start typing to search...
     </div>
+
+    <!-- Show results -->
+    <div *ngIf="searchTerm.trim()" class="space-y-4">
+      <div *ngFor="let category of getCategories()">
+        <h3 class="text-lg font-semibold text-purple-400">{{ category }}</h3>
+
+        <div *ngIf="results[category]?.length; else noResults">
+          <ul class="space-y-2">
+            <li *ngFor="let item of results[category]" class="flex items-center gap-3">
+              <div>
+                <strong *ngIf="item.name">{{ item.name }}</strong>
+                <strong *ngIf="!item.name && item.title">{{ item.title }}</strong>
+              </div>
+              <img *ngIf="item.image"
+                   [src]="item.image"
+                   alt="{{ item.name || item.title }}"
+                   class="w-12 h-12 rounded object-cover border border-gray-600" />
+            </li>
+          </ul>
+        </div>
+
+        <ng-template #noResults>
+          <p class="text-gray-500 italic">No results found in {{ category }}.</p>
+        </ng-template>
+      </div>
+    </div>
+  </div>
 </header>
