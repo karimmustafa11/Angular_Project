@@ -11,32 +11,32 @@ export class DataService {
   constructor(private http: HttpClient) { }
 
   getMenFashionProducts(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/menFashion`);
+    return this.http.get<any[]>(`${this.apiUrl}/Men`);
   }
 
   getWomenFashionProducts(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/womenFashion`);
+    return this.http.get<any[]>(`${this.apiUrl}/Women`);
   }
   getRecommendedProducts(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/recommended`);
+    return this.http.get<any[]>(`${this.apiUrl}/Recommended`);
   }
   getSportsProducts(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/sports`);
+    return this.http.get<any[]>(`${this.apiUrl}/Sports`);
   }
   getKidsFashionProducts(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/kids`);
+    return this.http.get<any[]>(`${this.apiUrl}/Kids`);
   }
   getElectronicsProducts(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/electronics`);
+    return this.http.get<any[]>(`${this.apiUrl}/Electronics`);
   }
   getBottomItems(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/startShopping`);
+    return this.http.get<any[]>(`${this.apiUrl}/Shopping`);
   }
   getTopItems(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/topItems`);
+    return this.http.get<any[]>(`${this.apiUrl}/TopSales`);
   }
   getOtherProducts(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/other`);
+    return this.http.get<any[]>(`${this.apiUrl}/Other`);
   }
 
 }

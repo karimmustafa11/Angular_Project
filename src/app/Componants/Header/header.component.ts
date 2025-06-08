@@ -17,21 +17,38 @@ export class HeaderComponent implements OnInit {
 
   isFocused: boolean = false;
 
-onFocus() {
-  this.isFocused = true;
-}
+  onFocus() {
+    this.isFocused = true;
+  }
 
-onBlur() {
-  setTimeout(() => {
-    this.isFocused = false;
-  }, 200);
-}
+  onBlur() {
+    setTimeout(() => {
+      this.isFocused = false;
+    }, 200);
+  }
 
 
 
   getCategories(): string[] {
-    return Object.keys(this.results);
+    if (!this.searchTerm.trim()) {
+      return Object.keys(this.results);
+    }
+
+    const term = this.searchTerm.toLowerCase();
+    return Object.keys(this.results).filter(category => {
+      const lowerCategory = category.toLowerCase();
+
+      if (lowerCategory.includes(term)) {
+        return true;
+      }
+
+      return this.results[category]?.some((item: any) =>
+        (item.name && item.name.toLowerCase().includes(term)) ||
+        (item.title && item.title.toLowerCase().includes(term))
+      );
+    });
   }
+
 
   onSearchChange() {
     if (!this.searchTerm.trim()) {

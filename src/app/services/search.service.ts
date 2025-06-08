@@ -5,18 +5,18 @@ import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class SearchService {
-  private baseUrl = 'http://localhost:3000'; // تأكد تغيره حسب عندك
+  private baseUrl = 'http://localhost:3000'; 
 
-  // endpoints اللي عايز تجيب داتا منها
   private endpoints = [
-    'startShopping',
-    'other',
-    'kids',
-    'sports',
-    'menFashion',
-    'womenFashion',
-    'electronics',
-    'recommended'
+    'Shopping',
+    'Other',
+    'Kids',
+    'Sports',
+    'Men',
+    'Women',
+    'Electronics',
+    'Recommended',
+    'TopSales'
   ];
 
   constructor(private http: HttpClient) { }
