@@ -35,5 +35,8 @@ export class DataService {
   getTopItems(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/topItems`);
   }
+  getOtherProducts(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/other`);
+  }
 
 }

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { DataService } from '../../../services/data-service.service';
 
 @Component({
   selector: 'app-other-section',
@@ -8,27 +9,12 @@ import { Component } from '@angular/core';
   styleUrl: './other-section.component.css'
 })
 export class OtherSectionComponent {
-  products = [
-    {
-      name: 'Books',
-      discount: 'Up to 60% Off',
-      image: '/images/other/book.png',
-    },
-    {
-      name: 'Music',
-      discount: 'Up to 35% Off',
-      image: '/images/other/piano.png',
-    },
-    {
-      name: 'Pet Supplies',
-      discount: 'Up to 60% Off',
-      image: '/images/other/animals.png',
-    },
-    {
-      name: 'Tools & Home Improvement',
-      discount: 'Up to 55% Off',
-      image: '/images/other/tool_boxes.png',
-    }
+  products:any = [];
+  constructor(private DataService:DataService){}
+  ngOnInit(){
+    this.DataService.getOtherProducts().subscribe((data:any)=>{
+      this.products = data;
+    });
+  }
 
-  ];
 }
