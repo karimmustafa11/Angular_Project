@@ -6,6 +6,7 @@ import { ValidationMsgComponent } from '../shared/validation-msg/validation-msg.
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { UserService } from '../../../services/user.service';
 
 
 @Component({
@@ -39,7 +40,8 @@ export class SignupComponent {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {
     this.signupForm = this.fb.group(
       {
@@ -71,7 +73,11 @@ export class SignupComponent {
           profileImage: reader.result
         });
         this.signupForm.get('profileImage')?.updateValueAndValidity();
+
+        this.userService.setProfileImage(reader.result as string);
+        localStorage.setItem('profileImage', reader.result as string);
       };
+
       reader.readAsDataURL(file);
     }
   }

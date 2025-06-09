@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SearchService } from '../../services/search.service';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../../services/user.service';
+
 
 @Component({
   selector: 'app-header',
@@ -14,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 export class HeaderComponent implements OnInit {
   searchTerm: string = '';
   results: any = {};
+  profileImage: string | null = null;
 
   isFocused: boolean = false;
 
@@ -26,6 +29,8 @@ export class HeaderComponent implements OnInit {
       this.isFocused = false;
     }, 200);
   }
+
+
 
 
 
@@ -62,10 +67,15 @@ export class HeaderComponent implements OnInit {
   }
   isLoggedIn: boolean = false;
 
-  constructor(public router: Router, private searchService: SearchService) { }
+  constructor(public router: Router, private searchService: SearchService, private userService: UserService) { }
 
   ngOnInit() {
     this.checkLoginStatus();
+
+    this.userService.profileImage$.subscribe(img => {
+      this.profileImage = img;
+    });
+
   }
 
   checkLoginStatus() {
