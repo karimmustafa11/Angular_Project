@@ -80,8 +80,6 @@ export class RecommendedComponent implements OnInit {
     localStorage.setItem(key, JSON.stringify(wishlist));
     this.wishlistService.updateWishlist(wishlist);
   }
-
-
   addToCart(product: any) {
     if (!this.checkLoginStatus()) {
       this.checkLogin = false;
@@ -89,9 +87,18 @@ export class RecommendedComponent implements OnInit {
       return;
     }
 
-    this.startCountdown();
     this.cartService.addToCart(product);
+    this.startCountdown();
   }
+  loadCartItems() {
+    const userId = this.getCurrentUserId();
+    if (!userId) return;
+
+    const cartKey = 'cart_' + userId;
+    const cartItems = JSON.parse(localStorage.getItem(cartKey) || '[]');
+    this.cartService.updateCart(cartItems);
+  }
+
   countdownWidth = 100;
 
   startCountdown() {

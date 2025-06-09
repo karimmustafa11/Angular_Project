@@ -12,14 +12,25 @@ export class CartService {
     this.loadCartFromStorage();
   }
 
-  private loadCartFromStorage() {
-    const stored = JSON.parse(localStorage.getItem('cart') || '[]');
+  private getUserCartKey(): string {
+    const userId = localStorage.getItem('userId');
+    return userId ? `cart_${userId}` : 'cart_guest';
+  }
+
+  public loadCartFromStorage() {
+    const key = this.getUserCartKey();
+    const stored = JSON.parse(localStorage.getItem(key) || '[]');
     this.cartItems.next(stored);
+  }
+
+  private saveCartToStorage(items: any[]) {
+    const key = this.getUserCartKey();
+    localStorage.setItem(key, JSON.stringify(items));
   }
 
   updateCart(items: any[]) {
     this.cartItems.next(items);
-    localStorage.setItem('cart', JSON.stringify(items));
+    this.saveCartToStorage(items);
   }
 
   getCurrentCart(): any[] {
@@ -36,4 +47,28 @@ export class CartService {
     }
     this.updateCart(cart);
   }
+
+  removeFromCart(productId: any) {
+    const cart = this.getCurrentCart();
+    const updatedCart = cart.filter(item => item.id !== productId);
+    this.updateCart(updatedCart);
+  }
+
+  increaseQuantity(productId: any) {
+    const cart = this.getCurrentCart();
+    const item = cart.find(i => i.id === productId);
+    if (item) item.quantity += 1;
+    this.updateCart(cart);
+  }
+
+  decreaseQuantity(productId: any) {
+    const cart = this.getCurrentCart();
+    const item = cart.find(i => i.id === productId);
+    if (item && item.quantity > 1) {
+      item.quantity -= 1;
+      this.updateCart(cart);
+    }
+  }
+
 }
+

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { WishlistService } from '../../services/wishlist.service';
 import { CartService } from '../../services/cart.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { CartService } from '../../services/cart.service';
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive, FormsModule]
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   searchTerm: string = '';
   results: any = {};
   profileImage: string | null = null;
@@ -24,6 +25,7 @@ export class HeaderComponent implements OnInit {
   cartCount: number = 0;
   cartItems: any[] = [];
   showCartView = false;
+  cartSub!: Subscription;
 
   onFocus() {
     this.isFocused = true;
@@ -58,6 +60,10 @@ export class HeaderComponent implements OnInit {
       );
     });
   }
+  get cartTotal(): number {
+    return this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  }
+
 
 
   onSearchChange() {
@@ -76,8 +82,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.checkLoginStatus();
-    this.loadCartItems();
-
+    this.cartSub = this.cartService.cartItems$.subscribe(items => {
+      this.cartItems = items;
+      this.cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
+    });
 
     this.userService.profileImage$.subscribe(img => {
       this.profileImage = img;
@@ -87,23 +95,15 @@ export class HeaderComponent implements OnInit {
       this.wishlistCount = items.length;
     });
 
-    this.cartService.cartItems$.subscribe(items => {
-      console.log('Received cart items:', items);
-
-      this.cartItems = items;
-      this.cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
-    });
-
   }
   loadCartItems() {
-    const stored = localStorage.getItem('cart');
-    this.cartItems = stored ? JSON.parse(stored) : [];
-    console.log('Received cart items:', this.cartItems);
+    this.cartService.loadCartFromStorage();
   }
+
   toggleCartView() {
     this.showCartView = !this.showCartView;
     if (this.showCartView) {
-      this.loadCartItems(); 
+      this.loadCartItems();
     }
   }
 
@@ -152,6 +152,33 @@ export class HeaderComponent implements OnInit {
       this.router.navigate(['/profile']);
     } else {
       this.router.navigate(['/login']);
+    }
+  }
+
+  increaseQuantity(item: any) {
+    this.cartService.increaseQuantity(item.id);
+  }
+
+  decreaseQuantity(item: any) {
+    this.cartService.decreaseQuantity(item.id);
+  }
+
+  removeItem(productId: any) {
+    this.cartService.removeFromCart(productId);
+  }
+
+
+  updateCartStorage() {
+    const userId = this.getCurrentUserId();
+    const cartKey = 'cart_' + userId;
+    localStorage.setItem(cartKey, JSON.stringify(this.cartItems));
+  }
+  getCurrentUserId(): string | null {
+    return localStorage.getItem('userId');
+  }
+  ngOnDestroy(): void {
+    if (this.cartSub) {
+      this.cartSub.unsubscribe();
     }
   }
 }
