@@ -5,6 +5,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SearchService } from '../../services/search.service';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
+import { WishlistService } from '../../services/wishlist.service';
 
 
 @Component({
@@ -17,8 +18,8 @@ export class HeaderComponent implements OnInit {
   searchTerm: string = '';
   results: any = {};
   profileImage: string | null = null;
-
   isFocused: boolean = false;
+  wishlistCount: number = 0;
 
   onFocus() {
     this.isFocused = true;
@@ -67,13 +68,17 @@ export class HeaderComponent implements OnInit {
   }
   isLoggedIn: boolean = false;
 
-  constructor(public router: Router, private searchService: SearchService, private userService: UserService) { }
+  constructor(public router: Router, private searchService: SearchService, private userService: UserService, private wishlistService: WishlistService) { }
 
   ngOnInit() {
     this.checkLoginStatus();
 
     this.userService.profileImage$.subscribe(img => {
       this.profileImage = img;
+    });
+
+    this.wishlistService.wishlistItems$.subscribe(items => {
+      this.wishlistCount = items.length;
     });
 
   }
@@ -104,7 +109,7 @@ export class HeaderComponent implements OnInit {
     } else {
       this.router.navigate(['/login']);
     }
-} 
+  }
 
   Cartclick() {
     if (this.isLoggedIn) {

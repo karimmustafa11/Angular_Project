@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { DataService } from '../../../services/data-service.service';
 import { Router } from '@angular/router';
+import { WishlistService } from '../../../services/wishlist.service';
 
 @Component({
   selector: 'app-recommended',
@@ -16,7 +17,7 @@ export class RecommendedComponent implements OnInit {
   showErrorMessage = true;
   addtocart: boolean = false;
 
-  constructor(private dataService: DataService, private router: Router) { }
+  constructor(private dataService: DataService, private router: Router, private wishlistService: WishlistService) { }
   ngOnInit() {
     this.dataService.getRecommendedProducts().subscribe((data) => {
       this.recommendedItems = data;
@@ -60,9 +61,7 @@ export class RecommendedComponent implements OnInit {
     }
 
     const userId = this.getCurrentUserId();
-    if (!userId) {
-      return;
-    }
+    if (!userId) return;
 
     product.isWishlisted = !product.isWishlisted;
 
@@ -78,6 +77,7 @@ export class RecommendedComponent implements OnInit {
     }
 
     localStorage.setItem(key, JSON.stringify(wishlist));
+    this.wishlistService.updateWishlist(wishlist);
   }
 
 
