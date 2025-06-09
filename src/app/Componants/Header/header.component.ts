@@ -26,6 +26,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   cartItems: any[] = [];
   showCartView = false;
   cartSub!: Subscription;
+  wishlistItems: any[] = [];
+  showWishlistView = false;
 
   onFocus() {
     this.isFocused = true;
@@ -78,7 +80,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   isLoggedIn: boolean = false;
 
-  constructor(public router: Router, private searchService: SearchService, private userService: UserService, private wishlistService: WishlistService, private cartService: CartService) { }
+  constructor(public router: Router, private searchService: SearchService, private userService: UserService, private wishlistService: WishlistService, private cartService: CartService) {
+    this.wishlistService.wishlistItems$.subscribe(items => {
+      this.wishlistItems = items;
+    });
+  }
 
   ngOnInit() {
     this.checkLoginStatus();
@@ -95,7 +101,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.wishlistCount = items.length;
     });
 
+
   }
+  toggleWishlistView() {
+    this.showWishlistView = !this.showWishlistView;
+  }
+  removeFromWishlist(item: any) {
+    this.wishlistService.removeFromWishlist(item.id);
+  }
+  isInWishlist(productId: string): boolean {
+    return this.wishlistService.getCurrentWishlist().some(item => item.id === productId);
+  }
+
   loadCartItems() {
     this.cartService.loadCartFromStorage();
   }

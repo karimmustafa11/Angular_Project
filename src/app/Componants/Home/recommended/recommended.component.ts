@@ -37,6 +37,10 @@ export class RecommendedComponent implements OnInit {
     });
   }
 
+  isInWishlist(productId: string): boolean {
+    return this.wishlistService.getCurrentWishlist().some(item => item.id === productId);
+  }
+
 
   closeErrorMessage() {
     this.showErrorMessage = false;

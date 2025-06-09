@@ -63,7 +63,11 @@
                 class="bg-white w-8 h-8 rounded-[50%] flex items-center justify-center absolute top-2 right-2 z-10 transition-transform transform group-hover:scale-110">
                 <button class="text-gray-400 dark:text-gray-300 hover:text-red-500 transition"
                     (click)="toggleWishlist(item)">
-                    <i [ngClass]="item.isWishlisted ? 'fa-solid fa-heart text-red-500' : 'fa-regular fa-heart'"></i>
+                    <i [class.fa-solid]="isInWishlist(item.id)" [class.fa-regular]="!isInWishlist(item.id)"
+                        class="fa-heart" [class.text-red-700]="isInWishlist(item.id)">
+                    </i>
+
+
                 </button>
             </div>
 

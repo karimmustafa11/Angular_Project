@@ -33,4 +33,10 @@ export class WishlistService {
   getCurrentWishlist(): any[] {
     return this.wishlistItems.getValue();
   }
+
+  removeFromWishlist(itemId: string) {
+    const updated = this.getCurrentWishlist().filter(item => item.id !== itemId);
+    this.updateWishlist(updated);
+  }
+
 }
