@@ -4,6 +4,7 @@ import { OnInit } from '@angular/core';
 import { DataService } from '../../../services/data-service.service';
 import { Router } from '@angular/router';
 import { WishlistService } from '../../../services/wishlist.service';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-recommended',
@@ -17,7 +18,7 @@ export class RecommendedComponent implements OnInit {
   showErrorMessage = true;
   addtocart: boolean = false;
 
-  constructor(private dataService: DataService, private router: Router, private wishlistService: WishlistService) { }
+  constructor(private dataService: DataService, private router: Router, private wishlistService: WishlistService, private cartService: CartService) { }
   ngOnInit() {
     this.dataService.getRecommendedProducts().subscribe((data) => {
       this.recommendedItems = data;
@@ -87,17 +88,9 @@ export class RecommendedComponent implements OnInit {
       this.showErrorMessage = true;
       return;
     }
+
     this.startCountdown();
-    const cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
-    const existingItem = cartItems.find((item: any) => item.id === product.id);
-
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      cartItems.push({ ...product, quantity: 1 });
-    }
-
-    localStorage.setItem('cart', JSON.stringify(cartItems));
+    this.cartService.addToCart(product);
   }
   countdownWidth = 100;
 

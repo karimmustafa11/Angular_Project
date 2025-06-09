@@ -6,6 +6,7 @@ import { SearchService } from '../../services/search.service';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { WishlistService } from '../../services/wishlist.service';
+import { CartService } from '../../services/cart.service';
 
 
 @Component({
@@ -20,6 +21,9 @@ export class HeaderComponent implements OnInit {
   profileImage: string | null = null;
   isFocused: boolean = false;
   wishlistCount: number = 0;
+  cartCount: number = 0;
+  cartItems: any[] = [];
+  showCartView = false;
 
   onFocus() {
     this.isFocused = true;
@@ -68,10 +72,12 @@ export class HeaderComponent implements OnInit {
   }
   isLoggedIn: boolean = false;
 
-  constructor(public router: Router, private searchService: SearchService, private userService: UserService, private wishlistService: WishlistService) { }
+  constructor(public router: Router, private searchService: SearchService, private userService: UserService, private wishlistService: WishlistService, private cartService: CartService) { }
 
   ngOnInit() {
     this.checkLoginStatus();
+    this.loadCartItems();
+
 
     this.userService.profileImage$.subscribe(img => {
       this.profileImage = img;
@@ -81,6 +87,24 @@ export class HeaderComponent implements OnInit {
       this.wishlistCount = items.length;
     });
 
+    this.cartService.cartItems$.subscribe(items => {
+      console.log('Received cart items:', items);
+
+      this.cartItems = items;
+      this.cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
+    });
+
+  }
+  loadCartItems() {
+    const stored = localStorage.getItem('cart');
+    this.cartItems = stored ? JSON.parse(stored) : [];
+    console.log('Received cart items:', this.cartItems);
+  }
+  toggleCartView() {
+    this.showCartView = !this.showCartView;
+    if (this.showCartView) {
+      this.loadCartItems(); 
+    }
   }
 
   checkLoginStatus() {
