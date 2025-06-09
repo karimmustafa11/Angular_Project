@@ -1,3 +1,54 @@
+<div *ngIf="!checkLogin && showErrorMessage"
+    class="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-6">
+
+    <div class="relative bg-white rounded-3xl shadow-2xl border-4 border-red-500 max-w-sm w-full
+     flex flex-col items-center gap-6 p-10 animate-slide-up-fade">
+
+        <button (click)="closeErrorMessage()"
+            class="absolute top-3 right-3 text-red-500 hover:text-red-700 text-3xl font-bold leading-none">
+            &times;
+        </button>
+
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-red-600 drop-shadow-md animate-bounce" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M12 17a5 5 0 100-10 5 5 0 000 10z" />
+        </svg>
+
+        <h3 class="text-3xl font-extrabold text-red-700">Login First!</h3>
+        <p class="text-gray-600 text-center text-lg max-w-xs">Please log in to continue.</p>
+
+        <button (click)="loginNow()"
+            class="bg-red-600 text-white font-bold py-2 px-6 rounded-full hover:bg-red-700 transition">
+            Login Now
+        </button>
+    </div>
+</div>
+
+<div *ngIf="addtocart" class="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-6">
+
+    <div class="relative bg-white rounded-3xl shadow-2xl border-4 border-green-500 max-w-sm w-full
+          flex flex-col items-center gap-6 p-10
+          animate-slide-up-fade text-center">
+
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-green-600 drop-shadow-md animate-checkmark"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+
+        <h3 class="text-3xl font-extrabold text-green-700">Added to cart successfully</h3>
+        <p class="text-gray-600 text-center text-lg max-w-xs"> Stay enjoy our products</p>
+
+        <div class="w-full h-2 bg-green-200 rounded-full overflow-hidden">
+            <div class="h-full bg-green-600 rounded-full transition-all duration-100"
+                [ngStyle]="{ width: countdownWidth + '%' }"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 <div class="px-6 py-8 bg-[#121212] dark:bg-gray-900 ">
     <div class="text-center mb-8">
         <h2 class="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
@@ -6,7 +57,7 @@
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
         <div *ngFor="let item of recommendedItems"
-            class="relative bg-[#1E1E1E] dark:bg-gray-800 shadow-md rounded-2xl p-4 group transition duration-300 text-white hover:shadow-lg">
+            class="relative bg-[#1E1E1E] dark:bg-gray-800 shadow-md rounded-2xl p-4 group transition duration-300 text-white hover:shadow-lg hover:scale-105">
             <!-- Wishlist Button -->
             <div
                 class="bg-white w-8 h-8 rounded-[50%] flex items-center justify-center absolute top-2 right-2 z-10 transition-transform transform group-hover:scale-110">
@@ -38,7 +89,7 @@
             <!-- Add to cart -->
             <button
                 class="absolute bottom-3 right-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white w-8 h-8 rounded-full transition">
-                <i class="fa fa-shopping-cart"></i>
+                <i class="fa fa-shopping-cart" (click)="addToCart(item) "></i>
             </button>
         </div>
     </div>

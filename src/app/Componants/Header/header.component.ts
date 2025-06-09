@@ -84,7 +84,9 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('profileImage');
     this.isLoggedIn = false;
+    this.profileImage = null;
     this.router.navigate(['/login']);
   }
   login() {
@@ -93,5 +95,33 @@ export class HeaderComponent implements OnInit {
 
   About() {
     this.router.navigate(['/about']);
+  }
+
+  Heartclick() {
+    if (this.isLoggedIn) {
+      this.router.navigate(['/wishlist']);
+    } else {
+      this.router.navigate(['/login']);
+    }
+} 
+
+  Cartclick() {
+    if (this.isLoggedIn) {
+      this.router.navigate(['/cart']);
+    } else {
+      this.router.navigate(['/login']);
+    }
+  }
+
+  Homeclick() {
+    this.router.navigate(['/home']);
+  }
+
+  Profileclick() {
+    if (this.isLoggedIn) {
+      this.router.navigate(['/profile']);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 }
