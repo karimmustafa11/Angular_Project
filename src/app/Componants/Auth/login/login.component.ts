@@ -61,7 +61,10 @@ export class LoginComponent {
         next: (res: any) => {
           console.log('Login response:', res);
           if (res && res.accessToken) {
+            console.log('Registration successful:', res);
+
             localStorage.setItem('accessToken', res.accessToken);
+            localStorage.setItem('userId', res.user.userId);
             this.showSuccessMessage = true;
             this.countdownWidth = 100;
 

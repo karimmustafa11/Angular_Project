@@ -102,6 +102,7 @@ export class SignupComponent {
           if (res && res.accessToken) {
             this.showSuccessMessage = true;
             localStorage.setItem('accessToken', res.accessToken);
+            localStorage.setItem('userId', res.userId);
             this.startCountdownAndRedirect();
           } else {
             console.error('Invalid response format');
