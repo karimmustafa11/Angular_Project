@@ -75,7 +75,6 @@ export class SignupComponent {
         this.signupForm.get('profileImage')?.updateValueAndValidity();
 
         this.userService.setProfileImage(reader.result as string);
-        localStorage.setItem('profileImage', reader.result as string);
       };
 
       reader.readAsDataURL(file);
@@ -102,7 +101,10 @@ export class SignupComponent {
           if (res && res.accessToken) {
             this.showSuccessMessage = true;
             localStorage.setItem('accessToken', res.accessToken);
-            localStorage.setItem('userId', res.userId);
+            if (res.user?.id) {
+              localStorage.setItem('userId', res.user.id);
+              this.userService.setProfileImage(this.signupForm.value.profileImage);
+            }
             this.startCountdownAndRedirect();
           } else {
             console.error('Invalid response format');

@@ -9,10 +9,9 @@ export class WishlistService {
   wishlistItems$ = this.wishlistItems.asObservable();
 
   constructor() {
-    this.loadWishlistFromStorage();
   }
 
-  private loadWishlistFromStorage() {
+  public loadWishlistFromStorage() {
     const userId = localStorage.getItem('userId');
     if (userId) {
       const key = 'wishlist_' + userId;
@@ -37,6 +36,10 @@ export class WishlistService {
   removeFromWishlist(itemId: string) {
     const updated = this.getCurrentWishlist().filter(item => item.id !== itemId);
     this.updateWishlist(updated);
+  }
+
+  updateWishlistFromStorage() {
+    this.loadWishlistFromStorage();
   }
 
 }

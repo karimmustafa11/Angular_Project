@@ -9,7 +9,6 @@ import { WishlistService } from '../../services/wishlist.service';
 import { CartService } from '../../services/cart.service';
 import { Subscription } from 'rxjs';
 
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -28,6 +27,40 @@ export class HeaderComponent implements OnInit, OnDestroy {
   cartSub!: Subscription;
   wishlistItems: any[] = [];
   showWishlistView = false;
+  isLoggedIn: boolean = false;
+
+  constructor(
+    public router: Router,
+    private searchService: SearchService,
+    private userService: UserService,
+    private wishlistService: WishlistService,
+    private cartService: CartService
+  ) {
+    this.wishlistService.wishlistItems$.subscribe(items => {
+      this.wishlistItems = items;
+      this.wishlistCount = items.length;
+    });
+  }
+
+  ngOnInit() {
+    this.checkLoginStatus();
+    if (this.isLoggedIn) {
+      this.wishlistService.loadWishlistFromStorage();
+      this.cartService.loadCartFromStorage();
+      this.userService.loadProfileImageFromStorage();
+    }
+
+
+
+    this.cartSub = this.cartService.cartItems$.subscribe(items => {
+      this.cartItems = items;
+      this.cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
+    });
+
+    this.userService.profileImage$.subscribe(img => {
+      this.profileImage = img;
+    });
+  }
 
   onFocus() {
     this.isFocused = true;
@@ -39,35 +72,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }, 200);
   }
 
-
-
-
-
-  getCategories(): string[] {
-    if (!this.searchTerm.trim()) {
-      return Object.keys(this.results);
-    }
-
-    const term = this.searchTerm.toLowerCase();
-    return Object.keys(this.results).filter(category => {
-      const lowerCategory = category.toLowerCase();
-
-      if (lowerCategory.includes(term)) {
-        return true;
-      }
-
-      return this.results[category]?.some((item: any) =>
-        (item.name && item.name.toLowerCase().includes(term)) ||
-        (item.title && item.title.toLowerCase().includes(term))
-      );
-    });
-  }
-  get cartTotal(): number {
-    return this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-  }
-
-
-
   onSearchChange() {
     if (!this.searchTerm.trim()) {
       this.results = {};
@@ -78,43 +82,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.results = data;
     });
   }
-  isLoggedIn: boolean = false;
 
-  constructor(public router: Router, private searchService: SearchService, private userService: UserService, private wishlistService: WishlistService, private cartService: CartService) {
-    this.wishlistService.wishlistItems$.subscribe(items => {
-      this.wishlistItems = items;
+  getCategories(): string[] {
+    if (!this.searchTerm.trim()) return Object.keys(this.results);
+
+    const term = this.searchTerm.toLowerCase();
+    return Object.keys(this.results).filter(category => {
+      const lowerCategory = category.toLowerCase();
+      return lowerCategory.includes(term) ||
+        this.results[category]?.some((item: any) =>
+          (item.name && item.name.toLowerCase().includes(term)) ||
+          (item.title && item.title.toLowerCase().includes(term))
+        );
     });
   }
 
-  ngOnInit() {
-    this.checkLoginStatus();
-    this.cartSub = this.cartService.cartItems$.subscribe(items => {
-      this.cartItems = items;
-      this.cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
-    });
-
-    this.userService.profileImage$.subscribe(img => {
-      this.profileImage = img;
-    });
-
-    this.wishlistService.wishlistItems$.subscribe(items => {
-      this.wishlistCount = items.length;
-    });
-
-
+  get cartTotal(): number {
+    return this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   }
+
   toggleWishlistView() {
     this.showWishlistView = !this.showWishlistView;
-  }
-  removeFromWishlist(item: any) {
-    this.wishlistService.removeFromWishlist(item.id);
-  }
-  isInWishlist(productId: string): boolean {
-    return this.wishlistService.getCurrentWishlist().some(item => item.id === productId);
-  }
-
-  loadCartItems() {
-    this.cartService.loadCartFromStorage();
   }
 
   toggleCartView() {
@@ -124,20 +112,74 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  loadCartItems() {
+    this.cartService.loadCartFromStorage();
+  }
+
+  removeFromWishlist(item: any) {
+    this.wishlistService.removeFromWishlist(item.id);
+  }
+
+  isInWishlist(productId: string): boolean {
+    return this.wishlistService.getCurrentWishlist().some(item => item.id === productId);
+  }
+
+  increaseQuantity(item: any) {
+    this.cartService.increaseQuantity(item.id);
+  }
+
+  decreaseQuantity(item: any) {
+    this.cartService.decreaseQuantity(item.id);
+  }
+
+  removeItem(productId: any) {
+    this.cartService.removeFromCart(productId);
+  }
+
+  updateCartStorage() {
+    const userId = this.getCurrentUserId();
+    const cartKey = 'cart_' + userId;
+    localStorage.setItem(cartKey, JSON.stringify(this.cartItems));
+  }
+
+  getCurrentUserId(): string | null {
+    return localStorage.getItem('userId');
+  }
+
   checkLoginStatus() {
     this.isLoggedIn = !!localStorage.getItem('accessToken');
   }
 
   logout() {
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('profileImage');
     localStorage.removeItem('userId');
+    localStorage.removeItem('profileImage');
+    this.wishlistService.updateWishlist([]);
+    this.cartService.updateCart([]);
+    this.userService.setProfileImage('');
     this.isLoggedIn = false;
     this.profileImage = null;
+    this.cartService.clearCart();
+    this.wishlistService.updateWishlist([]);
+
     this.router.navigate(['/login']);
   }
+
+
   login() {
     this.router.navigate(['/login']);
+  }
+
+  Homeclick() {
+    this.router.navigate(['/home']);
+  }
+
+  Profileclick() {
+    if (this.isLoggedIn) {
+      this.router.navigate(['/profile']);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
   About() {
@@ -160,39 +202,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  Homeclick() {
-    this.router.navigate(['/home']);
-  }
-
-  Profileclick() {
-    if (this.isLoggedIn) {
-      this.router.navigate(['/profile']);
-    } else {
-      this.router.navigate(['/login']);
-    }
-  }
-
-  increaseQuantity(item: any) {
-    this.cartService.increaseQuantity(item.id);
-  }
-
-  decreaseQuantity(item: any) {
-    this.cartService.decreaseQuantity(item.id);
-  }
-
-  removeItem(productId: any) {
-    this.cartService.removeFromCart(productId);
-  }
-
-
-  updateCartStorage() {
-    const userId = this.getCurrentUserId();
-    const cartKey = 'cart_' + userId;
-    localStorage.setItem(cartKey, JSON.stringify(this.cartItems));
-  }
-  getCurrentUserId(): string | null {
-    return localStorage.getItem('userId');
-  }
   ngOnDestroy(): void {
     if (this.cartSub) {
       this.cartSub.unsubscribe();

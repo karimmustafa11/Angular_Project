@@ -9,7 +9,6 @@ export class CartService {
   cartItems$ = this.cartItems.asObservable();
 
   constructor() {
-    this.loadCartFromStorage();
   }
 
   private getUserCartKey(): string {
@@ -27,6 +26,11 @@ export class CartService {
     const key = this.getUserCartKey();
     localStorage.setItem(key, JSON.stringify(items));
   }
+
+  public clearCart() {
+    this.cartItems.next([]);
+  }
+
 
   updateCart(items: any[]) {
     this.cartItems.next(items);
@@ -69,6 +73,4 @@ export class CartService {
       this.updateCart(cart);
     }
   }
-
 }
-
