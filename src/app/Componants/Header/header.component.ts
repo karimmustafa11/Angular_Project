@@ -202,6 +202,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  goToCheckout() {
+    this.showCartView = false;
+    this.router.navigate(['/checkout']);
+  }
+
+
   ngOnDestroy(): void {
     if (this.cartSub) {
       this.cartSub.unsubscribe();

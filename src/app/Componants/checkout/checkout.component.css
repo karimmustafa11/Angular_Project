@@ -1,0 +1,27 @@
+/* Container adjustments (if needed) */
+.checkout-container {
+    /* Tailwind classes handle most styling; add custom CSS here if desired */
+}
+
+/* Example: ensure scrollbar in summary doesn't overflow */
+.checkout-container .order-summary {
+    /* if you want fixed height with scroll:
+    max-height: 400px;
+    overflow-y: auto;
+    */
+}
+
+/* Focus states could be customized further if not using Tailwind utilities */
+input:focus,
+textarea:focus {
+    outline: none;
+}
+
+/* For smaller screens, ensure form stacks nicely */
+@media (max-width: 640px) {
+    .checkout-container {
+        padding: 1rem;
+    }
+}
+
+/* Additional custom tweaks can be added here */

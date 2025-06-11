@@ -5,6 +5,7 @@ import { LoginComponent } from './Componants/Auth/login/login.component';
 import { SignupComponent } from './Componants/Auth/signup/signup.component';
 import { AboutComponent } from './Componants/About/about.component';
 import { HomeComponent } from './Componants/Home/home/home.component';
+import { CheckoutComponent } from './Componants/checkout/checkout.component';
 
 export const routes: Routes = [
     {
@@ -13,6 +14,11 @@ export const routes: Routes = [
         children: [
             { path: '', component: HomeComponent }, // Default route
             { path: 'about', component: AboutComponent },
+            {
+                path: 'checkout',
+                component: CheckoutComponent
+            }
+
         ]
     },
     {

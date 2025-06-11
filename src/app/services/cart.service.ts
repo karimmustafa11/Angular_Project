@@ -9,6 +9,7 @@ export class CartService {
   cartItems$ = this.cartItems.asObservable();
 
   constructor() {
+    this.loadCartFromStorage();
   }
 
   private getUserCartKey(): string {
@@ -29,20 +30,21 @@ export class CartService {
 
   public clearCart() {
     this.cartItems.next([]);
+    const key = this.getUserCartKey();
+    localStorage.removeItem(key);
   }
 
-
-  updateCart(items: any[]) {
+  public updateCart(items: any[]) {
     this.cartItems.next(items);
     this.saveCartToStorage(items);
   }
 
-  getCurrentCart(): any[] {
+  public getCurrentCart(): any[] {
     return this.cartItems.getValue();
   }
 
   addToCart(product: any) {
-    const cart = this.getCurrentCart();
+    const cart = [...this.getCurrentCart()];
     const existing = cart.find(item => item.id === product.id);
     if (existing) {
       existing.quantity += 1;
@@ -53,20 +55,21 @@ export class CartService {
   }
 
   removeFromCart(productId: any) {
-    const cart = this.getCurrentCart();
-    const updatedCart = cart.filter(item => item.id !== productId);
+    const updatedCart = this.getCurrentCart().filter(item => item.id !== productId);
     this.updateCart(updatedCart);
   }
 
   increaseQuantity(productId: any) {
-    const cart = this.getCurrentCart();
+    const cart = [...this.getCurrentCart()];
     const item = cart.find(i => i.id === productId);
-    if (item) item.quantity += 1;
-    this.updateCart(cart);
+    if (item) {
+      item.quantity += 1;
+      this.updateCart(cart);
+    }
   }
 
   decreaseQuantity(productId: any) {
-    const cart = this.getCurrentCart();
+    const cart = [...this.getCurrentCart()];
     const item = cart.find(i => i.id === productId);
     if (item && item.quantity > 1) {
       item.quantity -= 1;
