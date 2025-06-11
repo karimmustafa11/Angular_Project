@@ -6,6 +6,7 @@ import { SignupComponent } from './Componants/Auth/signup/signup.component';
 import { AboutComponent } from './Componants/About/about.component';
 import { HomeComponent } from './Componants/Home/home/home.component';
 import { CheckoutComponent } from './Componants/checkout/checkout.component';
+import { OrderComponent } from './Componants/order/order.component';
 
 export const routes: Routes = [
     {
@@ -15,8 +16,8 @@ export const routes: Routes = [
             { path: '', component: HomeComponent }, // Default route
             { path: 'about', component: AboutComponent },
             {
-                path: 'checkout',
-                component: CheckoutComponent
+                path: 'order/:id',
+                component: OrderComponent
             }
 
         ]
@@ -27,6 +28,10 @@ export const routes: Routes = [
         children: [
             { path: 'login', component: LoginComponent },
             { path: 'signup', component: SignupComponent },
+            {
+                path: 'checkout',
+                component: CheckoutComponent
+            }
         ]
     },
 ];

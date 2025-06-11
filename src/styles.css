@@ -26,6 +26,13 @@ body {
     z-index: -1;
 }
 
+.bg-checkout {
+    background: linear-gradient(-45deg, #3a0ca3, #233278, #1e1e2f, #0f0f1b);
+    background-size: 400% 400%;
+    animation: gradientMoveDark 20s ease infinite;
+    z-index: -1;
+}
+
 @keyframes gradientMoveDark {
     0% {
         background-position: 0% 50%;

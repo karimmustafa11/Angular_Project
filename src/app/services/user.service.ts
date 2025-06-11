@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -11,6 +12,7 @@ export interface User {
   phone?: string;
   profileImage?: string;
   email?: string;
+  // أضف حقول أخرى حسب db.json
 }
 
 @Injectable({
