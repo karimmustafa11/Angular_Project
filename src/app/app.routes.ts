@@ -10,6 +10,7 @@ import { OrderComponent } from './Componants/order/order.component';
 import { LoginComponent } from './Componants/Auth/login/login.component';
 import { SignupComponent } from './Componants/Auth/signup/signup.component';
 import { CheckoutComponent } from './Componants/checkout/checkout.component';
+import { ProfileComponent } from './Componants/profile/profile.component';
 
 export const routes: Routes = [
     {
@@ -18,7 +19,7 @@ export const routes: Routes = [
         children: [
             { path: '', component: HomeComponent },
             { path: 'about', component: AboutComponent },
-            { path: 'order/:id', component: OrderComponent },
+            { path: 'profile', component: ProfileComponent },
         ]
     },
 
@@ -35,7 +36,10 @@ export const routes: Routes = [
         path: '',
         component: CheckoutLayoutComponent,
         children: [
-            { path: 'checkout', component: CheckoutComponent }
+            { path: 'checkout', component: CheckoutComponent },
+            { path: 'order/:id', component: OrderComponent },
+
+
         ]
     },
 

@@ -74,7 +74,8 @@
 
         <div class="flex items-center ml-auto space-x-8">
 
-            <img *ngIf="profileImage" [src]="profileImage" alt="Profile" class="w-[40px] h-[40px] rounded-full" />
+            <img *ngIf="profileImage" [src]="profileImage" alt="Profile" class="w-[40px] h-[40px] rounded-full cursor-pointer"
+                (click)="goToProfile()" />
 
 
             <nav class="nav-bar">

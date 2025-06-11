@@ -174,11 +174,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/home']);
   }
 
-  Profileclick() {
+  goToProfile() {
     if (this.isLoggedIn) {
       this.router.navigate(['/profile']);
-    } else {
-      this.router.navigate(['/login']);
     }
   }
 
