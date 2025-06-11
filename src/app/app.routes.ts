@@ -7,6 +7,7 @@ import { AboutComponent } from './Componants/About/about.component';
 import { HomeComponent } from './Componants/Home/home/home.component';
 import { CheckoutComponent } from './Componants/checkout/checkout.component';
 import { OrderComponent } from './Componants/order/order.component';
+import { CheckoutLayoutComponent } from './checkout-layout/checkout-layout.component';
 
 export const routes: Routes = [
     {
@@ -34,5 +35,12 @@ export const routes: Routes = [
             }
         ]
     },
+    {
+        path: '',
+        component: CheckoutLayoutComponent,
+        children: [
+            { path: 'checkout', component: CheckoutComponent }
+        ]
+    }
 ];
 

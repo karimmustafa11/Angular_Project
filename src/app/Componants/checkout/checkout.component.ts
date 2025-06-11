@@ -1,3 +1,4 @@
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
@@ -7,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { UserService, User } from '../../services/user.service';
+import { OrderService, Order } from '../../services/order.service';
 
 @Component({
   selector: 'app-checkout',
@@ -22,12 +24,12 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   private cartSub!: Subscription;
   private userSub!: Subscription;
-  userData: User | null = null;
 
   constructor(
     private fb: FormBuilder,
     private cartService: CartService,
     private userService: UserService,
+    private orderService: OrderService,
     private router: Router,
     private http: HttpClient
   ) {
@@ -40,18 +42,19 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // اشترك في cartItems$ حتى يتحدّث العرض تلقائياً
+    // تحميل السلة
     this.cartService.loadCartFromStorage();
     this.cartSub = this.cartService.cartItems$.subscribe(items => {
       this.cartItems = items;
       this.computeTotal();
     });
 
-    // اشترك في بيانات المستخدم
+    // تحميل بيانات المستخدم وملء الحقول
     this.userService.refreshUserData();
     this.userSub = this.userService.userData$.subscribe(user => {
-      this.userData = user;
-      this.prefillUserData(user);
+      if (user) {
+        this.prefillUserData(user);
+      }
     });
   }
 
@@ -67,32 +70,32 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     );
   }
 
-  prefillUserData(user: User | null): void {
-    if (user) {
-      const fullName = [user.firstName, user.lastName].filter(Boolean).join(' ');
-      this.checkoutForm.patchValue({
-        name: fullName,
-        address: user.address || '',
-        phone: user.phone || ''
-      });
-    }
+  prefillUserData(user: User): void {
+    const fullName = [user.firstName, user.lastName].filter(Boolean).join(' ');
+    this.checkoutForm.patchValue({
+      name: fullName,
+      address: user.address || '',
+      phone: user.phone || ''
+    });
   }
 
   placeOrder(): void {
     if (this.checkoutForm.valid) {
-      const orderData = {
+      const orderPayload: Order = {
         customer: this.checkoutForm.value,
         items: this.cartItems,
         total: this.cartTotal,
-        date: new Date()
+        date: new Date().toISOString()
       };
 
-      // مثال: إرسال الطلب للـ JSON Server
-      this.http.post('http://localhost:3000/orders', orderData).subscribe({
-        next: () => {
-          alert('Order placed successfully!');
+      this.http.post<Order>('http://localhost:3000/orders', orderPayload).subscribe({
+        next: (createdOrder) => {
+          // حفظ الطلب في OrderService
+          this.orderService.setCurrentOrder(createdOrder);
+          // تفريغ السلة
           this.cartService.clearCart();
-          this.router.navigate(['/home']);
+          // الانتقال لصفحة تأكيد الطلب
+          this.router.navigate(['/order', createdOrder.id]);
         },
         error: err => {
           console.error('Order error', err);
