@@ -10,7 +10,7 @@
             <div>
                 <label for="name" class="block text-sm font-medium mb-1">Full Name</label>
                 <input id="name" type="text" formControlName="name"
-                    class="w-full p-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="w-full p-2 bg-transparent border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="e.g. Karim Mustafa" />
                 <div *ngIf="checkoutForm.get('name')?.invalid && checkoutForm.get('name')?.touched"
                     class="text-red-400 text-xs mt-1">
@@ -22,7 +22,7 @@
             <div>
                 <label for="phone" class="block text-sm font-medium mb-1">Phone Number</label>
                 <input id="phone" type="tel" formControlName="phone"
-                    class="w-full p-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="w-full p-2 bg-transparent border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="+20 1XXXXXXXXX" />
                 <div *ngIf="checkoutForm.get('phone')?.invalid && checkoutForm.get('phone')?.touched"
                     class="text-red-400 text-xs mt-1">
@@ -34,7 +34,7 @@
             <div>
                 <label for="address" class="block text-sm font-medium mb-1">Address</label>
                 <textarea id="address" formControlName="address" rows="3"
-                    class="w-full p-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="w-full p-2 bg-transparent border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter your shipping address"></textarea>
                 <div *ngIf="checkoutForm.get('address')?.invalid && checkoutForm.get('address')?.touched"
                     class="text-red-400 text-xs mt-1">
@@ -84,8 +84,8 @@
 
             <!-- Place Order Button -->
             <button type="submit"
-                class="mt-6 w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 rounded-lg font-semibold transition-all shadow-lg">
-                ✅ Place Order
+                class="mt-6 w-full bg-transparent border border-gray-600 hover:border-gray-500 hover:bg-gray-600 transition-all duration-300 text-white py-3 rounded-lg font-semibold shadow-lg">
+                 Place Order
             </button>
         </fieldset>
 

@@ -27,9 +27,9 @@ body {
 }
 
 .bg-checkout {
-    background: linear-gradient(-45deg, #3a0ca3, #233278, #1e1e2f, #0f0f1b);
+    background: #1e1e2f;
     background-size: 400% 400%;
-    animation: gradientMoveDark 20s ease infinite;
+    animation: gradientMoveDark 10s ease infinite;
     z-index: -1;
 }
 
