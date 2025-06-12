@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,30 @@ export class AuthService {
   }
 
   login(credentials: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/login`, credentials);
+    return this.http.post(`${this.baseUrl}/login`, credentials).pipe(
+      // Assuming the response contains a token and user info
+      map((res: any) => {
+        if (res && res.user) {
+          localStorage.setItem('currentUser', JSON.stringify(res.user));
+        }
+        return res;
+      })
+    );
   }
+
+  getCurrentUser() {
+    const user = localStorage.getItem('currentUser');
+    return user ? JSON.parse(user) : null;
+  }
+
+  isAdmin(): boolean {
+    const user = this.getCurrentUser();
+    return user?.role === 'admin';
+  }
+
+  logout() {
+    localStorage.removeItem('currentUser');
+  }
+
+
 }

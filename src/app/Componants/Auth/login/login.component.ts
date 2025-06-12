@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } 
 import { ValidationMsgComponent } from '../shared/validation-msg/validation-msg.component';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.email]],
@@ -72,7 +74,11 @@ export class LoginComponent {
               this.countdownWidth -= 5;
               if (this.countdownWidth <= 0) {
                 clearInterval(interval);
-                this.router.navigate(['']);
+                if (this.authService.isAdmin()) {
+                  this.router.navigate(['/admin']);
+                } else {
+                  this.router.navigate(['']);
+                }
               }
             }, 100);
           } else {
