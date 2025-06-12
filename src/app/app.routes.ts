@@ -11,6 +11,11 @@ import { LoginComponent } from './Componants/Auth/login/login.component';
 import { SignupComponent } from './Componants/Auth/signup/signup.component';
 import { CheckoutComponent } from './Componants/checkout/checkout.component';
 import { ProfileComponent } from './Componants/profile/profile.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AddProductComponent } from './admin-dashboard/add-product/add-product.component';
+import { EditProductComponent } from './admin-dashboard/edit-product/edit-product.component';
+import { DeleteProductComponent } from './admin-dashboard/delete-product/delete-product.component';
+import { OrdersComponent } from './admin-dashboard/orders/orders.component';
 
 export const routes: Routes = [
     {
@@ -38,8 +43,17 @@ export const routes: Routes = [
         children: [
             { path: 'checkout', component: CheckoutComponent },
             { path: 'order/:id', component: OrderComponent },
+        ]
+    },
 
-
+    {
+        path: 'admin-dashboard',
+        component: AdminDashboardComponent,
+        children: [
+            { path: 'add-product', component: AddProductComponent },
+            { path: 'edit-product/:id', component: EditProductComponent },
+            { path: 'delete-product/:id', component: DeleteProductComponent },
+            { path: 'orders', component: OrdersComponent },
         ]
     },
 

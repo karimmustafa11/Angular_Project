@@ -1,0 +1,38 @@
+<div class="min-h-screen bg-gray-100 p-6">
+    <div class="max-w-5xl mx-auto bg-white shadow-lg rounded-2xl p-6">
+        <h2 class="text-3xl font-bold text-center mb-6">Admin Dashboard</h2>
+
+        <div class="flex justify-center space-x-4 mb-6">
+            <button class="px-4 py-2 rounded-full"
+                [ngClass]="{ 'bg-blue-600 text-white': activeTab === 'add', 'bg-gray-200': activeTab !== 'add' }"
+                (click)="activeTab = 'add'">
+                Add Product
+            </button>
+
+            <button class="px-4 py-2 rounded-full"
+                [ngClass]="{ 'bg-blue-600 text-white': activeTab === 'edit', 'bg-gray-200': activeTab !== 'edit' }"
+                (click)="activeTab = 'edit'">
+                Edit Product
+            </button>
+
+            <button class="px-4 py-2 rounded-full"
+                [ngClass]="{ 'bg-blue-600 text-white': activeTab === 'delete', 'bg-gray-200': activeTab !== 'delete' }"
+                (click)="activeTab = 'delete'">
+                Delete Product
+            </button>
+
+            <button class="px-4 py-2 rounded-full"
+                [ngClass]="{ 'bg-blue-600 text-white': activeTab === 'orders', 'bg-gray-200': activeTab !== 'orders' }"
+                (click)="activeTab = 'orders'">
+                Orders
+            </button>
+        </div>
+
+        <div>
+            <app-add-product *ngIf="activeTab === 'add'"></app-add-product>
+            <app-edit-product *ngIf="activeTab === 'edit'"></app-edit-product>
+            <app-delete-product *ngIf="activeTab === 'delete'"></app-delete-product>
+            <app-orders *ngIf="activeTab === 'orders'"></app-orders>
+        </div>
+    </div>
+</div>

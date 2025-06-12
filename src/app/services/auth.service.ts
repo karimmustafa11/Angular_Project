@@ -31,14 +31,17 @@ export class AuthService {
     return user ? JSON.parse(user) : null;
   }
 
-  isAdmin(): boolean {
-    const user = this.getCurrentUser();
-    return user?.role === 'admin';
-  }
 
-  logout() {
-    localStorage.removeItem('currentUser');
-  }
+
+
+logout() {
+  localStorage.removeItem('currentUser');
+}
+
+isAdmin(): boolean {
+  const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  return user?.role === 'admin';
+}
 
 
 }

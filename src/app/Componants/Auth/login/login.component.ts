@@ -67,6 +67,7 @@ export class LoginComponent {
 
             localStorage.setItem('accessToken', res.accessToken);
             localStorage.setItem('userId', res.user?.id);
+            localStorage.setItem('currentUser', JSON.stringify(res.user));
             this.showSuccessMessage = true;
             this.countdownWidth = 100;
 
@@ -75,7 +76,7 @@ export class LoginComponent {
               if (this.countdownWidth <= 0) {
                 clearInterval(interval);
                 if (this.authService.isAdmin()) {
-                  this.router.navigate(['/admin']);
+                  this.router.navigate(['/admin-dashboard']);
                 } else {
                   this.router.navigate(['']);
                 }
