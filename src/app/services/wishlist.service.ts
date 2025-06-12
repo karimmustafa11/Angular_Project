@@ -8,10 +8,9 @@ export class WishlistService {
   private wishlistItems = new BehaviorSubject<any[]>([]);
   wishlistItems$ = this.wishlistItems.asObservable();
 
-  constructor() {
-  }
+  constructor() { }
 
-  public loadWishlistFromStorage() {
+  loadWishlistFromStorage() {
     const userId = localStorage.getItem('userId');
     if (userId) {
       const key = 'wishlist_' + userId;
@@ -38,8 +37,23 @@ export class WishlistService {
     this.updateWishlist(updated);
   }
 
-  updateWishlistFromStorage() {
-    this.loadWishlistFromStorage();
+  toggleWishlist(product: any): boolean {
+    const userId = localStorage.getItem('userId');
+    if (!userId) return false;
+
+    const key = 'wishlist_' + userId;
+    let wishlist = JSON.parse(localStorage.getItem(key) || '[]');
+
+    const index = wishlist.findIndex((item: any) => item.id === product.id);
+
+    if (index === -1) {
+      wishlist.push({ ...product });
+    } else {
+      wishlist.splice(index, 1);
+    }
+
+    this.updateWishlist(wishlist);
+    return index === -1;
   }
 
 }

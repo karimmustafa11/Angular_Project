@@ -1,13 +1,13 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../../services/data-service.service';
 import { Router } from '@angular/router';
 import { WishlistService } from '../../../services/wishlist.service';
 import { CartService } from '../../../services/cart.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-recommended',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './recommended.component.html',
   styleUrl: './recommended.component.css'
@@ -17,47 +17,36 @@ export class RecommendedComponent implements OnInit {
   checkLogin: boolean = true;
   showErrorMessage = true;
   addtocart: boolean = false;
+  countdownWidth = 100;
 
-  constructor(private dataService: DataService, private router: Router, private wishlistService: WishlistService, private cartService: CartService) { }
+  constructor(
+    private dataService: DataService,
+    private router: Router,
+    private wishlistService: WishlistService,
+    private cartService: CartService
+  ) { }
+
   ngOnInit() {
     this.dataService.getRecommendedProducts().subscribe((data) => {
-      this.recommendedItems = data;
+      this.recommendedItems = data.map(item => ({ ...item }));
+
 
       if (this.checkLoginStatus()) {
-        const userId = this.getCurrentUserId();
-        if (userId) {
-          const key = 'wishlist_' + userId;
-          const wishlist = JSON.parse(localStorage.getItem(key) || '[]');
-
-          this.recommendedItems.forEach(item => {
-            item.isWishlisted = wishlist.some((wishItem: any) => wishItem.id === item.id);
-          });
-        }
+        const currentWishlist = this.wishlistService.getCurrentWishlist();
+        this.recommendedItems.forEach(item => {
+          item.isWishlisted = currentWishlist.some((wish: any) => wish.id === item.id);
+        });
       }
     });
   }
 
-  isInWishlist(productId: string): boolean {
-    return this.wishlistService.getCurrentWishlist().some(item => item.id === productId);
+
+  isInWishlist(productId: string | number): boolean {
+    const idNum = Number(productId);
+    return this.wishlistService.getCurrentWishlist().some(item => Number(item.id) === idNum);
   }
 
 
-  closeErrorMessage() {
-    this.showErrorMessage = false;
-
-  }
-
-  checkLoginStatus() {
-    if (localStorage.getItem('accessToken')) {
-      this.checkLogin = true;
-      return true;
-    }
-    return false;
-  }
-  getWishlistItems() {
-    const wishlist = localStorage.getItem('wishlist');
-    return wishlist ? JSON.parse(wishlist) : [];
-  }
   toggleWishlist(product: any) {
     if (!this.checkLoginStatus()) {
       this.checkLogin = false;
@@ -65,25 +54,11 @@ export class RecommendedComponent implements OnInit {
       return;
     }
 
-    const userId = this.getCurrentUserId();
-    if (!userId) return;
-
-    product.isWishlisted = !product.isWishlisted;
-
-    const key = 'wishlist_' + userId;
-    let wishlist = JSON.parse(localStorage.getItem(key) || '[]');
-
-    if (product.isWishlisted) {
-      if (!wishlist.find((item: any) => item.id === product.id)) {
-        wishlist.push(product);
-      }
-    } else {
-      wishlist = wishlist.filter((item: any) => item.id !== product.id);
-    }
-
-    localStorage.setItem(key, JSON.stringify(wishlist));
-    this.wishlistService.updateWishlist(wishlist);
+    const newStatus = this.wishlistService.toggleWishlist(product);
+    product.isWishlisted = newStatus;
   }
+
+
   addToCart(product: any) {
     if (!this.checkLoginStatus()) {
       this.checkLogin = false;
@@ -94,16 +69,6 @@ export class RecommendedComponent implements OnInit {
     this.cartService.addToCart(product);
     this.startCountdown();
   }
-  loadCartItems() {
-    const userId = this.getCurrentUserId();
-    if (!userId) return;
-
-    const cartKey = 'cart_' + userId;
-    const cartItems = JSON.parse(localStorage.getItem(cartKey) || '[]');
-    this.cartService.updateCart(cartItems);
-  }
-
-  countdownWidth = 100;
 
   startCountdown() {
     this.addtocart = true;
@@ -111,7 +76,6 @@ export class RecommendedComponent implements OnInit {
     const interval = setInterval(() => {
       countdown -= 5;
       this.countdownWidth = countdown;
-
       if (countdown <= 0) {
         clearInterval(interval);
         this.addtocart = false;
@@ -119,13 +83,24 @@ export class RecommendedComponent implements OnInit {
       }
     }, 100);
   }
+
   loginNow() {
-    // Navigate to the login page or perform login action
     this.router.navigate(['/login']);
+  }
+
+  checkLoginStatus(): boolean {
+    if (localStorage.getItem('accessToken')) {
+      this.checkLogin = true;
+      return true;
+    }
+    return false;
   }
 
   getCurrentUserId(): string | null {
     return localStorage.getItem('userId');
   }
 
+  closeErrorMassage() {
+    this.showErrorMessage = false;
+  }
 }
