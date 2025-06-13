@@ -1,59 +1,133 @@
-# Project
+# Meem - Your Online E-commerce Store
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.12.
+## Project Overview
+This is an e-commerce web application built using **Angular** for the frontend, **Tailwind CSS** for styling, and **JSON Server** as a mock backend. The application supports two main user roles: **Users** and **Admins**, each with distinct functionalities tailored to their needs. The platform allows users to browse products, add items to their favorites, make purchases, and manage their profiles, while admins can manage products and view orders.
 
-## Development server
+## Features
 
-To start a local development server, run:
+### User Features
+- **Sign Up & Login**: Users can create an account and log in securely.
+- **Product Search**: Search for products using keywords.
+- **Favorites List**: Add or remove products to/from a favorites list.
+- **Purchase Flow**: Add products to the cart, proceed to checkout, and receive order confirmation.
+- **Profile Management**: Users can update basic profile information (e.g., name, email, etc.).
 
-```bash
-ng serve
+### Admin Features
+- **Order Management**: View all orders placed by users.
+- **Product Management**: Add, edit, or delete products from the catalog.
+
+## Technologies Used
+- **Frontend**: Angular , Tailwind CSS
+- **Backend**: JSON Server (mock API)
+
+## Project Structure
+```
+e-commerce-project/
+├── .angular
+├── .vscode
+├── dist
+├── node_modules
+├── public
+├── server
+│   ├── node_modules
+│   ├── db.json           # Mock backend data
+│   ├── package-lock.json
+│   ├── package.json
+│   └── server.js         # JSON Server script
+├── src
+│   ├── app
+│   │   ├── admin-dashboard    # Admin dashboard component
+│   │   ├── checkout-layout    # Checkout layout component
+│   │   ├── Components         #  Main components directory
+│   │   ├── empty-layout-component
+│   │   ├── full-layout-component
+│   │   └── services           # Service files for API and logic
+│   │   ├── app.component.css
+│   │   ├── app.component.html
+│   │   ├── app.component.ts
+│   │   ├── app.config.ts
+│   │   ├── app.routes.ts
+│   ├── editorconfig
+│   ├── .gitignore
+│   ├── .hintrc
+│   ├── index.html
+│   ├── main.ts
+│   ├── main.css
+│   ├── styles.css
+│   ├── angular.json
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── tailwind.config.js     # Tailwind CSS configuration
+│   ├── tsconfig.app.json
+│   ├── tsconfig.json
+│   ├── tsconfig.spec.json
+│   └── vercel.json
+├── OUTLINE
+└── TIMELINE
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Installation
 
-## Code scaffolding
+### Prerequisites
+- Node.js (v16 or higher)
+- Angular CLI
+- JSON Server (`npm install -g json-server`)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Steps
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/karimmustafa11/e-commerce-project.git
+   cd e-commerce-project
+   ```
 
-```bash
-ng generate component component-name
-```
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+3. **Run JSON Server**:
+   Navigate to the `server` directory and start the mock backend:
+   ```bash
+   cd server
+   json-server --watch db.json
+   ```
+   The mock API will be available at `http://localhost:3000`.
 
-```bash
-ng generate --help
-```
+4. **Run the Angular Application**:
+   ```bash
+   ng serve
+   ```
+   The app will be available at `http://localhost:4200`.
 
-## Building
+## Usage
 
-To build the project run:
+### For Users
+1. Navigate to the homepage to browse products.
+2. Use the search bar to find specific products.
+3. Add products to your favorites or cart.
+4. Proceed to checkout to place an order.
+5. Visit the profile section to update your information.
 
-```bash
-ng build
-```
+### For Admins
+1. Log in with admin credentials.
+2. Access the admin dashboard to view all orders.
+3. Use the product management section to add, edit, or delete products.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Demo
+A video demonstration of the project is available [here](https://drive.google.com/drive/folders/181M5j-zn5qibIkfps6ASK_YklCbcc6zG?usp=sharing).
 
-## Running unit tests
+## GitHub Repository
+The source code is hosted on GitHub: [karimmustafa11/e-commerce-project](https://github.com/karimmustafa11).
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Contributing
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Commit your changes (`git commit -m "Add feature"`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Create a pull request.
 
-```bash
-ng test
-```
+## License
+This project is licensed under the MIT License.
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Contact
+For any inquiries, reach out via [GitHub](https://github.com/karimmustafa11).
