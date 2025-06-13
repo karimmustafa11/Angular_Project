@@ -1,1 +1,41 @@
-<p>edit-product works!</p>
+<div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow space-y-4">
+    <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Edit Product</h3>
+
+    <form class="space-y-4" (ngSubmit)="fetchProduct()">
+        <div>
+            <label class="block font-semibold">Section</label>
+            <select class="w-full border p-2 rounded" [(ngModel)]="section" name="section" required>
+                <option disabled value="">Select Section</option>
+                <option *ngFor="let sec of sections" [value]="sec">{{ sec }}</option>
+            </select>
+        </div>
+        <div>
+            <label class="block font-semibold dark:text-white">Product ID</label>
+            <input type="text" [(ngModel)]="productId" name="productId"
+                class="w-full border p-2 rounded dark:bg-gray-700 dark:text-white" required>
+        </div>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Load Product
+        </button>
+    </form>
+
+    <form *ngIf="productData" class="space-y-4" (ngSubmit)="updateProduct()">
+        <div *ngFor="let field of ['name', 'image', 'price', 'rating', 'reviews']">
+            <label class="block font-semibold capitalize dark:text-white">{{ field }}</label>
+            <input [(ngModel)]="productData[field]" name="{{field}}"
+                class="w-full border p-2 rounded dark:bg-gray-700 dark:text-white">
+        </div>
+
+        <div class="flex items-center gap-2">
+            <input type="checkbox" [(ngModel)]="productData.isWishlisted" name="isWishlisted">
+            <label class="dark:text-white">Wishlisted</label>
+        </div>
+
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+            Update Product
+        </button>
+    </form>
+
+    <div *ngIf="successMsg" class="text-green-500 font-bold">{{ successMsg }}</div>
+    <div *ngIf="errorMsg" class="text-red-500 font-bold">{{ errorMsg }}</div>
+</div>
