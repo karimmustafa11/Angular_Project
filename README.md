@@ -3,6 +3,9 @@
 ## Project Overview
 This is an e-commerce web application built using **Angular** for the frontend, **Tailwind CSS** for styling, and **JSON Server** as a mock backend. The application supports two main user roles: **Users** and **Admins**, each with distinct functionalities tailored to their needs. The platform allows users to browse products, add items to their favorites, make purchases, and manage their profiles, while admins can manage products and view orders.
 
+## Demo Video
+A video demonstration of the project is available [here](https://drive.google.com/drive/folders/181M5j-zn5qibIkfps6ASK_YklCbcc6zG?usp=sharing).
+
 ## Features
 
 ### User Features
@@ -113,11 +116,8 @@ e-commerce-project/
 2. Access the admin dashboard to view all orders.
 3. Use the product management section to add, edit, or delete products.
 
-## Demo
-A video demonstration of the project is available [here](https://drive.google.com/drive/folders/181M5j-zn5qibIkfps6ASK_YklCbcc6zG?usp=sharing).
 
-## GitHub Repository
-The source code is hosted on GitHub: [karimmustafa11/e-commerce-project](https://github.com/karimmustafa11).
+
 
 ## Contributing
 1. Fork the repository.
