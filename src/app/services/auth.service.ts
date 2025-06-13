@@ -16,7 +16,6 @@ export class AuthService {
 
   login(credentials: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/login`, credentials).pipe(
-      // Assuming the response contains a token and user info
       map((res: any) => {
         if (res && res.user) {
           localStorage.setItem('currentUser', JSON.stringify(res.user));

@@ -36,14 +36,12 @@ export class OrderComponent implements OnInit, OnDestroy {
         this.loading = true;
         this.errorMsg = null;
 
-        // حاول أولاً أخذ الطلب من OrderService إذا هو نفسه
         const current = this.orderService.getCurrentOrderValue();
         if (current && current.id == this.orderId) {
           this.order = current;
           this.loading = false;
-          return of(null); // لا حاجة لجلب الخادم
+          return of(null); 
         } else {
-          // جلب من JSON Server
           return this.http.get<Order>(`http://localhost:3000/orders/${this.orderId}`).pipe(
             catchError(err => {
               console.error('Failed to load order', err);

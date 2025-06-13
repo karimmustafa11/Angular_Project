@@ -13,8 +13,7 @@ export interface Order {
   };
   items: any[];
   total: number;
-  date: string; // ISO string
-  // يمكن إضافة status أو حقول أخرى لاحقًا
+  date: string; 
 }
 
 @Injectable({

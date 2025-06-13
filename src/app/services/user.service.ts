@@ -86,10 +86,7 @@ export class UserService {
     this.profileImageSubject.next(url);
   }
 
-  /**
-   * تحديث بيانات المستخدم (firstName, lastName, profileImage, phone, address...)
 
-   */
   updateUser(updated: Partial<User>): Observable<User | null> {
     const userId = this.getUserId();
     if (!userId) return of(null);
@@ -148,7 +145,7 @@ export class UserService {
           return of(false);
         }
         if (user.password === undefined) {
-          console.error('changePassword: user.password is undefined; تأكد من وجود الحقل في db.json');
+
           return of(false);
         }
         if (user.password !== oldPassword) {

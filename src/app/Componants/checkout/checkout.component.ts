@@ -42,14 +42,12 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // تحميل السلة
     this.cartService.loadCartFromStorage();
     this.cartSub = this.cartService.cartItems$.subscribe(items => {
       this.cartItems = items;
       this.computeTotal();
     });
 
-    // تحميل بيانات المستخدم وملء الحقول
     this.userService.refreshUserData();
     this.userSub = this.userService.userData$.subscribe(user => {
       if (user) {
@@ -90,11 +88,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
       this.http.post<Order>('http://localhost:3000/orders', orderPayload).subscribe({
         next: (createdOrder) => {
-          // حفظ الطلب في OrderService
           this.orderService.setCurrentOrder(createdOrder);
-          // تفريغ السلة
           this.cartService.clearCart();
-          // الانتقال لصفحة تأكيد الطلب
           this.router.navigate(['/order', createdOrder.id]);
         },
         error: err => {

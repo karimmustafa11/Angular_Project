@@ -25,7 +25,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   profError: string | null = null;
   profLoading = false;
 
-  // نموذج تغيير كلمة المرور
   passwordForm: FormGroup;
   pwSuccess: string | null = null;
   pwError: string | null = null;
