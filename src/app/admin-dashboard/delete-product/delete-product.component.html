@@ -1,1 +1,28 @@
-<p>delete-product works!</p>
+<div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow space-y-4">
+    <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Delete Product</h3>
+
+    <form class="space-y-4" (ngSubmit)="deleteProduct()">
+        <div>
+            <label class="block font-semibold text-gray-900 dark:text-white">Section</label>
+            <select class="w-full border p-2 rounded dark:bg-gray-700 dark:text-white" [(ngModel)]="section"
+                name="section" required>
+                <option disabled value="">Select Section</option>
+                <option *ngFor="let sec of sections" [value]="sec">{{ sec }}</option>
+            </select>
+        </div>
+
+        <div>
+            <label class="block font-semibold text-gray-900 dark:text-white">Product ID</label>
+            <input type="text" [(ngModel)]="productId" name="productId"
+                class="w-full border p-2 rounded dark:bg-gray-700 dark:text-white" required>
+        </div>
+
+        <button type="submit"
+            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded dark:bg-red-500 dark:hover:bg-red-600">
+            Delete Product
+        </button>
+    </form>
+
+    <div *ngIf="successMsg" class="text-green-600 dark:text-green-400 font-bold">{{ successMsg }}</div>
+    <div *ngIf="errorMsg" class="text-red-600 dark:text-red-400 font-bold">{{ errorMsg }}</div>
+</div>

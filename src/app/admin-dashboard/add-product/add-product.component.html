@@ -2,7 +2,6 @@
     <h3 class="text-2xl font-bold mb-4">Add New Product</h3>
 
     <form (ngSubmit)="addProduct()" #productForm="ngForm" class="space-y-4">
-        <!-- Section -->
         <div>
             <label class="block font-semibold">Section</label>
             <select class="w-full border p-2 rounded" [(ngModel)]="newProduct.section" name="section" required>
@@ -11,28 +10,21 @@
             </select>
         </div>
 
-        <!-- Product Name -->
         <div>
             <label class="block font-semibold">Product Name</label>
             <input class="w-full border p-2 rounded" type="text" [(ngModel)]="newProduct.name" name="name" required>
         </div>
 
-        <!-- Image URL -->
         <div>
             <label class="block font-semibold">Image URL</label>
             <input class="w-full border p-2 rounded" type="text" [(ngModel)]="newProduct.image" name="image" required>
         </div>
 
-        <!-- Price -->
         <div>
             <label class="block font-semibold">Price</label>
             <input class="w-full border p-2 rounded" type="number" [(ngModel)]="newProduct.price" name="price" required>
         </div>
 
-
-        
-
-        <!-- Submit -->
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
             Add Product
         </button>
